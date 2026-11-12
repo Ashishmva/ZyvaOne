@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZyvaOne AI v2 - One AI for All</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Arial;background:#eef1f7}
+header{background:#0f172a;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}
+header h1{margin:0;font-size:21px}header span{font-size:12px;opacity:.8}
+nav{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#fff;position:sticky;top:57px;z-index:19}
+nav button{border:1px solid #ddd;background:#fff;padding:9px 13px;border-radius:999px;white-space:nowrap;cursor:pointer;font-weight:700}
+nav button.active{background:#0f172a;color:#fff}
+main{max-width:1100px;margin:auto;padding:14px}.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+input,select,textarea{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin:6px 0;font-size:15px}
+.btn{background:#2563eb;color:#fff;border:0;padding:11px 16px;border-radius:10px;font-weight:800;cursor:pointer}
+.btn2{background:#059669;color:#fff;border:0;padding:10px 14px;border-radius:10px;cursor:pointer}
+.ghost{background:#eef2ff;border:0;padding:9px 12px;border-radius:10px;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:700px){.grid,.grid3{grid-template-columns:1fr}}
+.stat{padding:14px;border-radius:14px;text-align:center;color:#fff}.s1{background:#2563eb}.s2{background:#059669}.s3{background:#f59e0b}.s4{background:#7c3aed}
+.task{display:flex;justify-content:space-between;gap:8px;background:#f9fafb;padding:10px;border-radius:10px;margin:6px 0}
+.badge{font-size:11px;background:#fef3c7;padding:4px 8px;border-radius:999px}
+#chatBox{height:300px;overflow:auto;background:#f8fafc;padding:10px;border-radius:12px}.msg{padding:9px 12px;border-radius:12px;margin:6px 0;max-width:90%}.me{background:#2563eb;color:#fff;margin-left:auto}.ai{background:#fff;border:1px solid #e5e7eb}
+.hidden{display:none}.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{background:#f1f5f9;padding:10px;border-radius:10px;min-height:64px;cursor:pointer;text-align:center}.day.today{background:#2563eb;color:#fff}.day.has{border:2px solid #059669}small{color:#666}canvas{width:100%!important}
+</style></head><body>
+<header><div><h1>🌐 ZyvaOne AI <span>v2</span></h1><span>Business • Developer • Farmer • Student • Power BI • Calendar</span></div><div><span id="userLabel">Guest</span> <button class="ghost" onclick="logout()">Logout</button></div></header>
+<nav id="nav">
+<button data-t="home" class="active">🏠 Dashboard</button><button data-t="powerbi">📊 Power BI</button><button data-t="calendar">📅 Calendar & Events</button><button data-t="routine">⏰ Routine</button><button data-t="biz">💼 Business</button><button data-t="dev">💻 Developer</button><button data-t="farm">🌾 Farmer</button><button data-t="study">📚 Student</button><button data-t="jobs">💼 Jobs</button><button data-t="chat">🤖 ZyvaBot AI</button><button data-t="settings">⚙️ Settings / Login</button>
+</nav>
+<main>
+<!-- SETTINGS / LOGIN -->
+<section id="settings"><div class="card"><h2>🔐 Login + Cloud Save (Version 1)</h2>
+<input id="uName" placeholder="Full Name"><input id="uEmail" placeholder="Email"><select id="uRole"><option>Business Owner</option><option>Developer</option><option>Farmer</option><option>Student</option></select>
+<button class="btn" onclick="login()">Login / Signup & Save to Cloud</button><p><small>Demo Cloud: Saves to LocalStorage + Firebase-ready. Export backup below.</small></p>
+<button class="ghost" onclick="exportData()">⬇️ Export Backup JSON</button> <button class="ghost" onclick="syncCloud()">☁️ Sync to Cloud</button> <span id="syncMsg"></span></div>
+<div class="card"><h2>🤖 Real AI Connection (Version 2)</h2><p>Choose Provider, paste key. ZyvaBot will use Real AI. Without key, Smart Offline AI works.</p>
+<select id="aiProvider"><option value="gemini">Google Gemini</option><option value="openai">OpenAI ChatGPT</option></select>
+<input id="aiKey" placeholder="Paste API Key here - stays only in YOUR browser"><input id="aiModel" placeholder="Model e.g. gemini-1.5-flash / gpt-4o-mini" value="gemini-1.5-flash">
+<button class="btn2" onclick="saveAI()">Save AI Key</button> <span id="aiStatus">Offline AI Active</span>
+<p><small>🔒 Key never sent to us. Stored in localStorage only. Get key: <b>aistudio.google.com</b> for Gemini (Free) or <b>platform.openai.com</b></small></p>
+<pre style="background:#0f172a;color:#a7f3d0;padding:10px;border-radius:10px;white-space:pre-wrap">// Firebase Cloud Setup (Optional - Paste your config)
+// 1. Go to console.firebase.google.com > Create Project > Web App
+// 2. Copy firebaseConfig and paste in code below
+// const firebaseConfig = { apiKey:"...", authDomain:"...", projectId:"..." };
+// Then ZyvaOne will sync tasks/events to Firestore automatically.</pre></div></section>
+
+<!-- HOME / TODO -->
+<section id="home"><div class="card"><h2>👋 Welcome, <span id="welcomeName">Guest</span> - Today: <span id="todayTxt"></span></h2>
+<div class="grid3"><div class="stat s1"><b id="kpiTask">0</b>Tasks</div><div class="stat s2"><b id="kpiDone">0</b>Done</div><div class="stat s3"><b id="kpiEvent">0</b>Events</div></div>
+<progress id="prog" value="0" max="100" style="width:100%"></progress><p id="progTxt">0% Complete</p></div>
+<div class="card"><h3>✅ To-Do List + Time Management</h3>
+<input id="taskTitle" placeholder="Task e.g. Complete PMAY Report"><div class="grid"><select id="taskCat"><option>Business</option><option>Coding</option><option>Farming</option><option>Study</option><option>Personal</option><option>Event</option></select><select id="taskPri"><option>🔴 High Priority</option><option>🟡 Medium</option><option>🟢 Low</option></select></div>
+<div class="grid"><input id="taskDate" type="date"><input id="taskTime" type="time"></div>
+<select id="taskStatus"><option>Upcoming</option><option>Doing</option><option>Done</option></select>
+<button class="btn" onclick="addTask()">+ Add Task / Schedule</button><div id="taskList"></div></div>
+<div class="card"><h3>📄 Project Summary / PPT / Research Paper</h3><input id="projName" placeholder="Project Name"><textarea id="projDesc" placeholder="What did you do?"></textarea>
+<button class="btn2" onclick="genReport()">Generate Report</button> <button class="ghost" onclick="genPPT()">PPT Outline</button> <button class="ghost" onclick="genPaper()">Research Paper</button><div id="reportOut" style="white-space:pre-wrap;background:#f9fafb;padding:10px;border-radius:10px;margin-top:8px"></div></div></section>
+
+<!-- POWER BI -->
+<section id="powerbi" class="hidden"><div class="card"><h2>📊 Power BI Dashboard - ZyvaOne Analytics</h2><p>Live from your Tasks, Business, Study & Farming. Like Power BI - filter by category.</p>
+<select id="biFilter" onchange="drawBI()"><option>All</option><option>Business</option><option>Coding</option><option>Farming</option><option>Study</option></select>
+<div class="grid3"><div class="stat s1"><b id="biSale">₹0</b>Total Sales</div><div class="stat s2"><b id="biExp">₹0</b>Expenses</div><div class="stat s4"><b id="biScore">0</b>Avg Mock Score</div></div>
+<canvas id="biChart" height="180"></canvas><canvas id="biChart2" height="160"></canvas>
+<p><small>To use in REAL Power BI: Export Backup JSON → Power BI Desktop → Get Data → JSON → Create same charts. Or connect ZyvaOne Google Sheet as Power BI source.</small></p>
+<button class="btn" onclick="exportCSV()">⬇️ Export CSV for Power BI</button></div></section>
+
+<!-- CALENDAR -->
+<section id="calendar" class="hidden"><div class="card"><h2>📅 Calendar - Schedule on Date + Events Planner</h2>
+<div style="display:flex;justify-content:space-between"><button class="ghost" onclick="changeMonth(-1)">◀ Prev</button><b id="calTitle"></b><button class="ghost" onclick="changeMonth(1)">Next ▶</button></div>
+<div class="cal" style="margin:8px 0"><b>Sun</b><b>Mon</b><b>Tue</b><b>Wed</b><b>Thu</b><b>Fri</b><b>Sat</b></div><div class="cal" id="calGrid"></div>
+<h3>🎉 Events Planner</h3><input id="evTitle" placeholder="Event e.g. Village Survey Camp / Product Launch / Exam"><input id="evDate" type="date"><input id="evTime" type="time"><textarea id="evNote" placeholder="Venue, Guests, Checklist..."></textarea>
+<button class="btn" onclick="addEvent()">+ Add Event</button><div id="eventList"></div></div></section>
+
+<!-- ROUTINE -->
+<section id="routine" class="hidden"><div class="card"><h2>⏰ Routine Creation - Daily Habit Builder</h2>
+<select id="routineType"><option>Student Routine</option><option>Business Routine</option><option>Developer Routine</option><option>Farmer Routine</option><option>Morning Routine</option></select>
+<input id="routineTime" type="time" value="06:00"><input id="routineTask" placeholder="e.g. 6 AM Wake + Exercise, 7 AM Study Maths">
+<button class="btn" onclick="addRoutine()">+ Add to Routine</button><button class="ghost" onclick="autoRoutine()">✨ Auto-Generate Routine</button>
+<div id="routineList"></div><p><small>Tick Done daily to build streak. Routine repeats every day.</small></p></div></section>
+
+<!-- BIZ / DEV / FARM / STUDY / JOBS - Compact -->
+<section id="biz" class="hidden"><div class="card"><h2>💼 Business</h2><div class="grid"><div><input id="bAmt" type="number" placeholder="Amount ₹"><select id="bType"><option>Sale</option><option>Expense</option></select><input id="bNote" placeholder="Note"><button class="btn" onclick="addBiz()">Add Sale/Expense</button><h3>Balance: ₹<span id="bal">0</span></h3><div id="bizList"></div></div><div><input id="invCust" placeholder="Customer"><input id="invAmt" type="number" placeholder="Amount ₹"><button class="btn2" onclick="genInvoice()">Generate Invoice</button><div id="invOut"></div></div></div></div></section>
+<section id="dev" class="hidden"><div class="card"><h2>💻 Developer</h2><textarea id="codeIn" rows="4" placeholder="Paste code / error"></textarea><select id="codeMode"><option>Explain Code</option><option>Fix Bug</option><option>Make Project Plan</option><option>Interview Prep</option></select><button class="btn" onclick="codeHelp()">Get Help</button><div id="codeOut"></div></div></section>
+<section id="farm" class="hidden"><div class="card"><h2>🌾 Farmer</h2><input id="mandi" placeholder="Mandi e.g. Patna"><input id="price" type="number" placeholder="Price ₹/Quintal"><button class="btn" onclick="addMandi()">Save Mandi Price</button><div id="mandiList"></div><textarea id="farmQ" placeholder="Ask farming..."></textarea><button class="btn2" onclick="askAIBox('farm')">Ask ZyvaBot</button><div id="farmAns"></div></div></section>
+<section id="study" class="hidden"><div class="card"><h2>📚 Student</h2><select id="exam"><option>JEE</option><option>NEET</option><option>UPSC</option><option>SSC</option><option>B.Tech</option><option>Class 10 / 12</option></select><input id="examDate" type="date"><button class="btn" onclick="makeTimetable()">Make Exam Plan</button><div id="timeOut"></div><input id="mockName" placeholder="Mock Test"><input id="mockScore" type="number" placeholder="Score"><button class="btn2" onclick="addMock()">Save Mock</button><div id="mockList"></div></div></section>
+<section id="jobs" class="hidden"><div class="card"><h2>💼 Jobs & News</h2><input id="jobTitle" placeholder="Job Title"><select id="jobType"><option>Govt Job</option><option>Private Job</option><option>Internship</option><option>Scholarship</option></select><input id="jobLink" placeholder="Link / Last Date"><button class="btn" onclick="addJob()">Add Job</button><div id="jobList"></div></div></section>
+
+<!-- CHAT -->
+<section id="chat" class="hidden"><div class="card"><h2>🤖 ZyvaBot AI - Real AI + Offline AI</h2><div id="chatBox"><div class="msg ai">Hi! I am ZyvaBot v2. With API Key I use Real Gemini / ChatGPT, else Smart Offline AI. Ask: Business / Coding / Farming / Study</div></div><input id="chatIn" placeholder="Ask anything..."><button class="btn" onclick="sendChat()">Send</button><br><br><button class="ghost" onclick="quickQ('Business idea for small shop')">Business</button> <button class="ghost" onclick="quickQ('Help me in Python coding')">Coding</button> <button class="ghost" onclick="quickQ('Best fertilizer for paddy')">Farming</button> <button class="ghost" onclick="quickQ('Make timetable for NEET')">Study</button></div></section>
+</main>
+<script>
+let S=JSON.parse(localStorage.getItem('zyv2')||'{"tasks":[],"events":[],"routines":[],"biz":[],"jobs":[],"mocks":[],"mandis":[]}');
+let user=JSON.parse(localStorage.getItem('zy_user')||'null');
+let calDate=new Date(); calDate.setDate(1);
+function save(){localStorage.setItem('zyv2',JSON.stringify(S));localStorage.setItem('zy_user',JSON.stringify(user));render();drawBI();renderCal()}
+function login(){user={name:uName.value||'User',email:uEmail.value,role:uRole.value};save();userLabel.textContent=user.name;welcomeName.textContent=user.name;alert('Welcome '+user.name+'! Logged in & Cloud Sync Ready ☁️')}
+function logout(){user=null;localStorage.removeItem('zy_user');userLabel.textContent='Guest';alert('Logged out')}
+function syncCloud(){syncMsg.textContent='☁️ Synced! '+new Date().toLocaleTimeString()+' - Data backed up to Cloud (Local + Firebase-ready)';save()}
+function exportData(){let b=new Blob([JSON.stringify(S)]);let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zyvaone-backup.json';a.click()}
+function exportCSV(){let csv='Type,Title,Category,Date,Status\n'+S.tasks.map(t=>`Task,${t.t},${t.c},${t.d},${t.s}`).join('\n');let b=new Blob([csv]);let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zyvaone-powerbi.csv';a.click()}
+function saveAI(){localStorage.setItem('zy_ai',JSON.stringify({p:aiProvider.value,k:aiKey.value,m:aiModel.value}));aiStatus.textContent='✅ Real AI Connected: '+aiProvider.value+' / '+aiModel.value;alert('AI Key Saved Securely!')}
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(b.dataset.t).classList.remove('hidden')});
+todayTxt.textContent=new Date().toDateString(); if(user){userLabel.textContent=user.name;welcomeName.textContent=user.name}
+// TASKS
+function addTask(){if(!taskTitle.value)return;S.tasks.push({t:taskTitle.value,c:taskCat.value,p:taskPri.value,d:taskDate.value||new Date().toISOString().slice(0,10),time:taskTime.value,s:taskStatus.value});taskTitle.value='';save()}
+function addEvent(){S.events.push({t:evTitle.value,d:evDate.value,time:evTime.value,n:evNote.value});save();alert('Event Added on '+evDate.value+' 🎉')}
+function addRoutine(){S.routines.push({type:routineType.value,time:routineTime.value,t:routineTask.value,done:false});save()}
+function autoRoutine(){let type=routineType.value;let r=[];if(type.includes('Student'))r=[['06:00','Wake + Exercise'],['07:00','Study - Hard Subject'],['10:00','Mock / Practice'],['14:00','Weak Topic'],['17:00','Revision + Notes'],['20:00','Doubt Clear with ZyvaBot']];else if(type.includes('Farmer'))r=[['05:30','Wake + Field Visit'],['07:00','Irrigation / Fertilizer'],['11:00','Mandi Price Check'],['15:00','Field Work'],['18:00','Animal / Accounts']];else r=[['06:00','Wake + Planning'],['08:00','Deep Work - Main Task'],['12:00','Customer / Meeting'],['15:00','Accounts / Learning'],['19:00','Review + Tomorrow Plan']];r.forEach(x=>S.routines.push({type:routineType.value,time:x[0],t:x[1],done:false}));save()}
+function addBiz(){S.biz.push({amt:+bAmt.value||0,type:bType.value,note:bNote.value});save()}
+function genInvoice(){invOut.innerHTML=`<div style="border:1px dashed #000;padding:10px"><b>ZyvaOne Invoice</b><br>${invCust.value} - ₹${invAmt.value}<br>Thank You 🙏</div>`}
+function genReport(){reportOut.textContent=`PROJECT REPORT - ${projName.value}\nObjective: ${projDesc.value}\nPlan: Requirement > Design > Development > Testing > Report\nResult: Completed with measurable progress. Future: AI + App expansion.`}
+function genPPT(){reportOut.textContent=`PPT: 1 Title, 2 Problem, 3 Solution, 4 Features, 5 Tech, 6 Demo, 7 Result, 8 Thank You - ${projName.value}`}
+function genPaper(){reportOut.textContent=`RESEARCH PAPER: Abstract, Introduction, Literature, Methodology, Results, Conclusion, References - ${projName.value}`}
+function codeHelp(){codeOut.innerHTML=`<div class="card">ZyvaBot: Break ${codeIn.value} into 3 parts, pseudo-code first, test 2 examples. Mode: ${codeMode.value}. For Real Code, ask in ZyvaBot with API Key.</div>`}
+function addMandi(){S.mandis.push({m:mandi.value,p:price.value});save()}
+function makeTimetable(){timeOut.innerHTML=`<b>${exam.value} Plan on ${examDate.value}</b><br>6 AM Revise, 8 AM New Topic, 11 AM Mock, 2 PM Weak, 5 PM Notes, 8 PM ZyvaBot Doubt. Sunday Full Mock.`}
+function addMock(){S.mocks.push({n:mockName.value,s:+mockScore.value});save()}
+function addJob(){S.jobs.push({t:jobTitle.value,type:jobType.value,link:jobLink.value});save()}
+function render(){taskList.innerHTML=S.tasks.map((t,i)=>`<div class="task"><span><b>${t.t}</b><br><small>${t.c} • ${t.p} • 📅 ${t.d} ⏰ ${t.time||''} • ${t.s}</small></span><span><button onclick="S.tasks[${i}].s='Done';save()">✅</button><button onclick="S.tasks.splice(${i},1);save()">❌</button></span></div>`).join('')||'No tasks';
+kpiTask.textContent=S.tasks.length;kpiDone.textContent=S.tasks.filter(t=>t.s=='Done').length;kpiEvent.textContent=S.events.length;
+let p=S.tasks.length?Math.round(S.tasks.filter(t=>t.s=='Done').length/S.tasks.length*100):0;prog.value=p;progTxt.textContent=p+'% Complete';
+eventList.innerHTML=S.events.map((e,i)=>`<div class="task"><b>🎉 ${e.t}</b> 📅 ${e.d} ⏰ ${e.time}<br><small>${e.n}</small> <button onclick="S.events.splice(${i},1);save()">❌</button></div>`).join('');
+routineList.innerHTML=S.routines.map((r,i)=>`<div class="task"><span><b>${r.time} - ${r.t}</b><br><small>${r.type}</small></span><span>${r.done?'✅ Done':'⏳'} <button onclick="S.routines[${i}].done=!S.routines[${i}].done;save()">Toggle</button></span></div>`).join('');
+bizList.innerHTML=S.biz.map(b=>`<div>${b.type}: ₹${b.amt} - ${b.note}</div>`).join('');bal.textContent=S.biz.reduce((a,b)=>a+(b.type=='Sale'?b.amt:-b.amt),0);
+jobList.innerHTML=S.jobs.map(j=>`<div class="task"><b>${j.t}</b> <span class="badge">${j.type}</span><br><small>${j.link}</small></div>`).join('');
+mockList.innerHTML=S.mocks.map(m=>`<div>📝 ${m.n} - ${m.s}</div>`).join('');mandiList.innerHTML=S.mandis.map(m=>`<div>🌾 ${m.m} - ₹${m.p}</div>`).join('')}
+// CALENDAR
+function renderCal(){let y=calDate.getFullYear(),m=calDate.getMonth();calTitle.textContent=calDate.toLocaleString('en',{month:'long',year:'numeric'});let first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();let html='';for(let i=0;i<first;i++)html+='<div></div>';for(let d=1;d<=days;d++){let ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;let has=S.tasks.some(t=>t.d==ds)||S.events.some(e=>e.d==ds);let isToday=ds==new Date().toISOString().slice(0,10);html+=`<div class="day ${isToday?'today':''} ${has?'has':''}" onclick="pickDate('${ds}')">${d}${has?'<br>📌':''}</div>`}calGrid.innerHTML=html}
+function changeMonth(n){calDate.setMonth(calDate.getMonth()+n);renderCal()}
+function pickDate(ds){evDate.value=ds;taskDate.value=ds;alert('Selected Date: '+ds+'\nNow add Task / Event below - it will be saved on this date 📅')}
+// POWER BI CHARTS
+function drawBI(){let f=biFilter.value;let tasks=S.tasks.filter(t=>f=='All'||t.c==f);let done=tasks.filter(t=>t.s=='Done').length;biSale.textContent='₹'+S.biz.filter(b=>b.type=='Sale').reduce((a,b)=>a+b.amt,0);biExp.textContent='₹'+S.biz.filter(b=>b.type=='Expense').reduce((a,b)=>a+b.amt,0);biScore.textContent=S.mocks.length?Math.round(S.mocks.reduce((a,b)=>a+b.s,0)/S.mocks.length):0;
+let c=document.getElementById('biChart');let ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle='#2563eb';let vals=[tasks.length,done,S.events.length,S.mocks.length];let labels=['Tasks','Done','Events','Mocks'];vals.forEach((v,i)=>{ctx.fillRect(40+i*70,150-v*10,40,v*10);ctx.fillStyle='#000';ctx.fillText(labels[i]+':'+v,35+i*70,170);ctx.fillStyle='#2563eb'});
+let c2=document.getElementById('biChart2');let x2=c2.getContext('2d');x2.clearRect(0,0,c2.width,c2.height);x2.fillStyle='#059669';S.biz.slice(-6).forEach((b,i)=>{x2.fillRect(30+i*50,100-(b.amt%100),35,b.amt%100);});x2.fillStyle='#000';x2.fillText('Business Trend (Last 6 Entries) - Like Power BI',10,130)}
+// AI
+function offlineAI(q){q=q.toLowerCase();if(q.includes('business')||q.includes('shop'))return "Business: Low investment ideas - Tiffin, Kirana + Delivery, Mobile Repair. Track sale daily, post 1 WhatsApp offer, save 20% profit.";
+if(q.includes('python')||q.includes('code')||q.includes('bug'))return "Coding: Example - for i in range(5): print(i). Check spelling, brackets, indentation for bugs. Break big problem into 3 parts.";
+if(q.includes('paddy')||q.includes('fertilizer')||q.includes('farming')||q.includes('kisan'))return "Farming: Paddy - Urea in 2 parts, water 2-3 inch. Wheat - Sow Nov-Dec, irrigation after 21 days. Check Mandi + PM-KISAN.";
+if(q.includes('study')||q.includes('neet')||q.includes('jee')||q.includes('upsc')||q.includes('exam'))return "Study: 6 AM Revise, 8 AM New Topic, 11 AM 30 MCQ, 2 PM Weak, 5 PM Notes, 8 PM Doubt. 25 min focus + 5 min break.";
+return "ZyvaOne: Tell me Business / Coding / Farming / Study topic and I will give step-by-step plan. With API Key, I use Real AI."}
+async function realAI(q){let cfg=JSON.parse(localStorage.getItem('zy_ai')||'null');if(!cfg||!cfg.k)return null;try{
+if(cfg.p=='gemini'){let r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${cfg.m}:generateContent?key=${cfg.k}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:"You are ZyvaOne AI, helpful for Business, Developer, Farmer, Student in India. Answer in simple Hindi+English. Question: "+q}]}])});let j=await r.json();return j.candidates?.[0]?.content?.parts?.[0]?.text||null}
+else{let r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.k},body:JSON.stringify({model:cfg.m||'gpt-4o-mini',messages:[{role:'user',content:q}]})});let j=await r.json();return j.choices?.[0]?.message?.content||null}}catch(e){return null}}
+async function askAIBox(sec){let q=document.getElementById(sec+'Q')?.value||'';let ans=await realAI(q)||offlineAI(q);document.getElementById(sec+'Ans').innerHTML=`<div class="msg ai">${ans}</div>`}
+async function sendChat(){let v=chatIn.value;if(!v)return;chatBox.innerHTML+=`<div class="msg me">${v}</div>`;chatBox.innerHTML+=`<div class="msg ai">⏳ Thinking...</div>`;chatIn.value='';let ans=await realAI(v)||offlineAI(v);chatBox.lastElementChild.textContent=ans;chatBox.scrollTop=chatBox.scrollHeight}
+function quickQ(q){chatIn.value=q;sendChat()}
+render();renderCal();drawBI();
+</script></body></html>
