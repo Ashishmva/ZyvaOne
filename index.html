@@ -1,142 +1,277 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ZyvaOne AI v3 - One AI for All</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<title>ZyvaOne AI v4</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:'Inter',system-ui;background:#f1f4f9;color:#0f172a}
+:root{--bg:#f1f4f9;--tx:#0f172a;--cd:#fff;--bd:#e2e8f0;--in:#f8fafc;--mu:#64748b;--sb:#0f172a}
+.dark{--bg:#0b1220;--tx:#e5e7eb;--cd:#151e32;--bd:#26324d;--in:#0f1729;--mu:#94a3b8;--sb:#050a14}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)}
 .app{display:flex;min-height:100vh}
-.sidebar{width:260px;background:#0f172a;color:#fff;padding:20px;position:sticky;top:0;height:100vh;flex-shrink:0}
-.sidebar h1{font-size:22px;margin:0}.sidebar p{opacity:.7;font-size:12px;margin:4px 0 18px}
-.sbtn{display:flex;gap:10px;width:100%;text-align:left;background:transparent;color:#cbd5e1;border:0;padding:12px;border-radius:12px;cursor:pointer;font-weight:700;font-size:14px;margin:2px 0}
+.sidebar{width:250px;background:var(--sb);color:#fff;padding:18px;position:sticky;top:0;height:100vh;overflow:auto;flex-shrink:0}
+.sidebar h1{font-size:21px;margin:0}.sidebar p{opacity:.7;font-size:12px;margin:4px 0 16px}
+.sbtn{display:block;width:100%;text-align:left;background:transparent;color:#cbd5e1;border:0;padding:11px 12px;border-radius:12px;cursor:pointer;font:700 14px Inter;margin:2px 0}
 .sbtn.active,.sbtn:hover{background:#fff;color:#0f172a}
-.main{flex:1;padding:20px;max-width:1100px;margin:auto;width:100%}
+.main{flex:1;padding:20px;max-width:1100px;margin:auto;width:100%;min-width:0}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.search{flex:1;min-width:200px;background:#fff;padding:12px 16px;border-radius:999px;border:1px solid #e2e8f0}
-.card{background:#fff;border-radius:20px;padding:18px;margin:14px 0;box-shadow:0 6px 20px rgba(0,0,0,.05)}
-.grad{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border-radius:20px;padding:22px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
-@media(max-width:800px){.sidebar{display:none}.grid,.grid3,.grid4{grid-template-columns:1fr}.mnav{display:flex!important}}
-.mnav{display:none;gap:8px;overflow-x:auto;padding:10px 0}.mnav button{white-space:nowrap;border:1px solid #ddd;background:#fff;padding:9px 12px;border-radius:999px;font-weight:700}
-.kpi{border-radius:18px;padding:16px;color:#fff}.k1{background:#2563eb}.k2{background:#059669}.k3{background:#f59e0b}.k4{background:#7c3aed}.kpi b{font-size:28px;display:block}.kpi span{font-size:13px;opacity:.9}
-input,select,textarea{width:100%;padding:12px;border:1px solid #e2e8f0;border-radius:12px;margin:6px 0;font-size:15px;background:#f8fafc}
-.btn{background:#0f172a;color:#fff;border:0;padding:12px 18px;border-radius:12px;font-weight:800;cursor:pointer}
-.btn2{background:#059669;color:#fff;border:0;padding:11px 14px;border-radius:12px;font-weight:700;cursor:pointer}
-.ghost{background:#eef2ff;border:0;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer}
-.task{display:flex;justify-content:space-between;gap:10px;background:#f8fafc;padding:12px;border-radius:12px;margin:7px 0;border-left:4px solid #2563eb}
-.badge{font-size:11px;background:#fef3c7;padding:4px 8px;border-radius:999px;font-weight:700}
-.hidden{display:none!important}.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{background:#f1f5f9;padding:12px;border-radius:12px;min-height:58px;cursor:pointer;text-align:center;font-weight:700}.day.today{background:#0f172a;color:#fff}.day.has{border:2px solid #059669}
-#chatBox{height:320px;overflow:auto;background:#f8fafc;padding:12px;border-radius:14px}.msg{padding:10px 12px;border-radius:14px;margin:7px 0;max-width:90%;line-height:1.5}.me{background:#0f172a;color:#fff;margin-left:auto}.ai{background:#fff;border:1px solid #e2e8f0}
-.bar{height:14px;background:#e2e8f0;border-radius:999px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#2563eb,#22c55e)}
-small{color:#64748b}.pill{display:inline-block;background:#dcfce7;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.card{background:var(--cd);border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.grad{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mnav{display:none;gap:8px;overflow-x:auto;padding:10px 0}.mnav button{white-space:nowrap;border:1px solid var(--bd);background:var(--cd);color:var(--tx);padding:9px 12px;border-radius:999px;font-weight:700;cursor:pointer}.mnav button.active{background:#2563eb;color:#fff}
+@media(max-width:800px){.sidebar{display:none}.grid,.grid3,.grid4{grid-template-columns:1fr}.mnav{display:flex}}
+.kpi{border-radius:16px;padding:16px;color:#fff}.k1{background:#2563eb}.k2{background:#059669}.k3{background:#d97706}.k4{background:#7c3aed}.kpi b{font-size:26px;display:block}.kpi span{font-size:13px;opacity:.9}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--bd);border-radius:12px;margin:5px 0;font:15px Inter;background:var(--in);color:var(--tx)}
+button{font-family:Inter}
+.btn,.btn2,.ghost,.sm{border:0;cursor:pointer;font-weight:700;border-radius:12px}
+.btn{background:#0f172a;color:#fff;padding:12px 18px}.dark .btn{background:#2563eb}.btn2{background:#059669;color:#fff;padding:11px 14px}.ghost{background:#e0e7ff;color:#1e1b4b;padding:10px 12px}.sm{background:var(--in);color:var(--tx);padding:6px 9px;border:1px solid var(--bd);margin-left:4px}
+.task{display:flex;justify-content:space-between;gap:10px;background:var(--in);padding:12px;border-radius:12px;margin:7px 0;border-left:4px solid #2563eb;align-items:center}.task.done{opacity:.55;border-left-color:#059669}.task.done b{text-decoration:line-through}
+.task span:first-child{min-width:0;word-break:break-word}.acts{white-space:nowrap}
+.badge{font-size:11px;background:#fef3c7;color:#78350f;padding:3px 8px;border-radius:999px;font-weight:700}
+.hidden{display:none!important}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}.day{background:var(--in);padding:10px 2px;border-radius:12px;min-height:54px;cursor:pointer;font-weight:700}.day.today{background:#0f172a;color:#fff}.dark .day.today{background:#2563eb}.day.sel{outline:3px solid #7c3aed}.day.has{border:2px solid #059669}
+#chatBox{height:340px;overflow:auto;background:var(--in);padding:12px;border-radius:14px}.msg{padding:10px 12px;border-radius:14px;margin:7px 0;max-width:90%;line-height:1.5;word-break:break-word}.me{background:#2563eb;color:#fff;margin-left:auto}.ai{background:var(--cd);border:1px solid var(--bd)}
+.bar{height:14px;background:var(--bd);border-radius:999px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#2563eb,#22c55e);transition:width .4s}
+small{color:var(--mu)}.pill{display:inline-block;background:#dcfce7;color:#14532d;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700}
+canvas{width:100%;display:block;margin:10px 0}.out{white-space:pre-wrap;background:var(--in);padding:12px;border-radius:12px;margin-top:10px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:12px 18px;border-radius:12px;z-index:9;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%}#toast.on{opacity:1}
+@media print{.sidebar,.mnav,.top,.btn,.btn2,.ghost{display:none}}
 </style></head><body>
 <div class="app">
-<aside class="sidebar"><h1>🌐 ZyvaOne AI</h1><p>One AI • Business • Code • Farm • Study</p>
-<button class="sbtn active" data-t="home">🏠 Dashboard</button><button class="sbtn" data-t="powerbi">📊 Power BI Dashboard</button><button class="sbtn" data-t="calendar">📅 Calendar & Events</button><button class="sbtn" data-t="routine">⏰ Routine & Time</button><button class="sbtn" data-t="biz">💼 Business</button><button class="sbtn" data-t="dev">💻 Developer</button><button class="sbtn" data-t="farm">🌾 Farmer</button><button class="sbtn" data-t="study">📚 Student</button><button class="sbtn" data-t="jobs">💼 Jobs & News</button><button class="sbtn" data-t="chat">🤖 ZyvaBot AI</button><button class="sbtn" data-t="settings">⚙️ Settings</button>
-<div style="margin-top:18px;background:#1e293b;padding:14px;border-radius:14px"><b>🔥 Pro Tip</b><p style="color:#cbd5e1">No database needed. Everything saves in your browser automatically.</p></div></aside>
+<aside class="sidebar"><h1>🌐 ZyvaOne AI</h1><p>Business • Code • Farm • Study</p><div id="snav"></div>
+<div style="margin-top:16px;background:#1e293b;padding:12px;border-radius:14px;font-size:13px"><b>🔒 Private</b><p style="margin:6px 0 0;opacity:.8">All data stays in this browser. Use Export Backup in Settings.</p></div></aside>
 <div class="main">
-<div class="top"><div><h2 style="margin:0">Welcome back, <span id="welcomeName">Ashish 👋</span></h2><small id="todayTxt"></small></div><input class="search" placeholder="🔍 Search tasks, business, study... (type + Enter)"></div>
-<div class="mnav" id="mnav"><button data-t="home">Home</button><button data-t="powerbi">Power BI</button><button data-t="calendar">Calendar</button><button data-t="routine">Routine</button><button data-t="biz">Business</button><button data-t="dev">Dev</button><button data-t="farm">Farmer</button><button data-t="study">Student</button><button data-t="jobs">Jobs</button><button data-t="chat">AI Chat</button><button data-t="settings">Settings</button></div>
+<div class="top"><div><h2 style="margin:0">Welcome back, <span id="welcomeName">Ashish</span> 👋</h2><small id="todayTxt"></small></div>
+<div style="display:flex;gap:8px;flex:1;min-width:220px;justify-content:flex-end"><input id="q" style="max-width:340px;border-radius:999px" placeholder="🔍 Search everything + Enter"><button class="ghost" id="themeBtn">🌙</button></div></div>
+<div class="mnav" id="mnav"></div>
 
-<!-- HOME -->
 <section id="home">
-<div class="card grad"><h2 style="margin:0">Your Day, In One Place ✨</h2><p>Business • Coding • Farming • Study — ZyvaOne manages it all.</p><span class="pill">✅ All Tabs Working • Offline Ready</span></div>
+<div class="card grad"><h2 style="margin:0">Your Day, In One Place ✨</h2><p>Tasks, events, business, study and farm — saved automatically.</p><span class="pill" id="netPill">✅ Ready</span></div>
+<div class="card hidden" id="searchBox"><h3>🔍 Search results <button class="sm" id="clrSearch">Clear</button></h3><div id="searchOut"></div></div>
 <div class="grid4"><div class="kpi k1"><b id="kpiTask">0</b><span>Total Tasks</span></div><div class="kpi k2"><b id="kpiDone">0</b><span>Completed</span></div><div class="kpi k3"><b id="kpiEvent">0</b><span>Events</span></div><div class="kpi k4"><b id="kpiBal">₹0</b><span>Business Balance</span></div></div>
-<div class="card"><h3>📊 Today's Progress</h3><div class="bar"><div class="fill" id="progFill" style="width:0%"></div></div><p id="progTxt">0% Complete</p></div>
+<div class="card"><h3>📊 Progress</h3><div class="bar"><div class="fill" id="progFill" style="width:0%"></div></div><p id="progTxt">0%</p><small id="overdue"></small></div>
 <div class="card"><h3>✅ To-Do + Time Management</h3>
-<input id="taskTitle" placeholder="e.g. Complete PMAY Survey Report / Buy Seeds / Revise Biology">
-<div class="grid"><select id="taskCat"><option>Business</option><option>Coding</option><option>Farming</option><option>Study</option><option>Personal</option></select><select id="taskPri"><option>🔴 High Priority</option><option>🟡 Medium</option><option>🟢 Low</option></select></div>
+<input id="taskTitle" placeholder="e.g. Complete survey report / Buy seeds / Revise Biology">
+<div class="grid"><select id="taskCat"><option>Business</option><option>Coding</option><option>Farming</option><option>Study</option><option>Personal</option></select><select id="taskPri"><option>🔴 High</option><option>🟡 Medium</option><option>🟢 Low</option></select></div>
 <div class="grid"><input id="taskDate" type="date"><input id="taskTime" type="time"></div>
-<select id="taskStatus"><option>Upcoming</option><option>Doing</option><option>Done</option></select>
-<button class="btn" onclick="addTask()">+ Add Task & Schedule on Calendar</button><div id="taskList"></div></div>
-<div class="card"><h3>📄 Project Summary / PPT / Research Paper</h3><input id="projName" placeholder="Project Name"><textarea id="projDesc" placeholder="What did you do?"></textarea>
-<button class="btn2" onclick="genReport()">Generate Report</button> <button class="ghost" onclick="genPPT()">PPT Outline</button> <button class="ghost" onclick="genPaper()">Research Paper</button><div id="reportOut" style="white-space:pre-wrap;background:#f8fafc;padding:12px;border-radius:12px;margin-top:10px"></div></div>
+<button class="btn" id="addTaskBtn">+ Add Task</button>
+<div style="margin:12px 0"><select id="taskFilter" style="width:auto"><option>All</option><option>Upcoming</option><option>Doing</option><option>Done</option></select></div><div id="taskList"></div></div>
+<div class="card"><h3>📄 Project Report / PPT / Paper</h3><input id="projName" placeholder="Project name"><textarea id="projDesc" rows="3" placeholder="What did you do? Key results, tools, outcome"></textarea>
+<button class="btn2" data-gen="report">Report</button> <button class="ghost" data-gen="ppt">PPT Outline</button> <button class="ghost" data-gen="paper">Research Paper</button> <button class="ghost" id="copyRep">Copy</button> <button class="ghost" id="aiRep">✨ Improve with AI</button><div class="out" id="reportOut">Your output appears here.</div></div>
 </section>
 
-<!-- POWER BI -->
-<section id="powerbi" class="hidden"><div class="card"><h2>📊 Power BI Style Dashboard</h2><p>Live from your data. Filter like Power BI.</p>
-<select id="biFilter" onchange="drawBI()"><option>All</option><option>Business</option><option>Coding</option><option>Farming</option><option>Study</option></select>
-<div class="grid3" style="margin-top:10px"><div class="kpi k1"><b id="biSale">₹0</b><span>Total Sales</span></div><div class="kpi k2"><b id="biExp">₹0</b><span>Expenses</span></div><div class="kpi k4"><b id="biScore">0</b><span>Avg Mock Score</span></div></div>
-<canvas id="biChart" height="170" style="width:100%"></canvas><canvas id="biChart2" height="140" style="width:100%"></canvas>
-<button class="btn" onclick="exportCSV()">⬇️ Export CSV for Real Power BI</button></div></section>
+<section id="powerbi" class="hidden"><div class="card"><h2>📊 Analytics Dashboard</h2>
+<select id="biFilter" style="width:auto"><option>All</option><option>Business</option><option>Coding</option><option>Farming</option><option>Study</option><option>Personal</option></select>
+<div class="grid3"><div class="kpi k1"><b id="biSale">₹0</b><span>Total Sales</span></div><div class="kpi k2"><b id="biExp">₹0</b><span>Expenses</span></div><div class="kpi k4"><b id="biScore">0</b><span>Avg Mock Score</span></div></div>
+<h4>Tasks by status</h4><canvas id="c1" height="170"></canvas><h4>Sales vs Expenses (by date)</h4><canvas id="c2" height="170"></canvas><h4>Mock score trend</h4><canvas id="c3" height="150"></canvas>
+<button class="btn" id="expCsv">⬇️ Export CSV (tasks + business)</button></div></section>
 
-<!-- CALENDAR -->
-<section id="calendar" class="hidden"><div class="card"><h2>📅 Calendar + Events Planner</h2>
-<div style="display:flex;justify-content:space-between;align-items:center"><button class="ghost" onclick="changeMonth(-1)">◀ Prev</button><b id="calTitle"></b><button class="ghost" onclick="changeMonth(1)">Next ▶</button></div>
+<section id="calendar" class="hidden"><div class="card"><h2>📅 Calendar + Events</h2>
+<div style="display:flex;justify-content:space-between;align-items:center"><button class="ghost" id="prevM">◀</button><b id="calTitle"></b><button class="ghost" id="nextM">▶</button></div>
 <div class="cal" style="margin:10px 0"><b>Sun</b><b>Mon</b><b>Tue</b><b>Wed</b><b>Thu</b><b>Fri</b><b>Sat</b></div><div class="cal" id="calGrid"></div>
-<h3>🎉 Add Event on Selected Date</h3><input id="evTitle" placeholder="Event e.g. Village Survey Camp"><input id="evDate" type="date"><input id="evTime" type="time"><textarea id="evNote" placeholder="Venue, Guests, Checklist"></textarea>
-<button class="btn" onclick="addEvent()">+ Add Event</button><div id="eventList"></div></div></section>
+<h3 id="dayTitle">Selected day</h3><div id="dayList"></div>
+<h3>🎉 Add Event</h3><input id="evTitle" placeholder="Event name"><div class="grid"><input id="evDate" type="date"><input id="evTime" type="time"></div><textarea id="evNote" rows="2" placeholder="Venue, guests, checklist"></textarea>
+<button class="btn" id="addEvBtn">+ Add Event</button></div></section>
 
-<!-- ROUTINE -->
 <section id="routine" class="hidden"><div class="card"><h2>⏰ Routine Builder</h2>
 <select id="routineType"><option>Student Routine</option><option>Business Routine</option><option>Developer Routine</option><option>Farmer Routine</option><option>Morning Routine</option></select>
-<div class="grid"><input id="routineTime" type="time" value="06:00"><input id="routineTask" placeholder="e.g. 6 AM Wake + Exercise"></div>
-<button class="btn" onclick="addRoutine()">+ Add to Routine</button> <button class="ghost" onclick="autoRoutine()">✨ Auto-Generate Routine</button><div id="routineList"></div></div></section>
+<div class="grid"><input id="routineTime" type="time" value="06:00"><input id="routineTask" placeholder="e.g. Wake + Exercise"></div>
+<button class="btn" id="addRtBtn">+ Add</button> <button class="ghost" id="autoRt">✨ Auto-generate for selected type</button> <button class="ghost" id="resetRt">Reset today's ticks</button>
+<div class="bar" style="margin-top:12px"><div class="fill" id="rtFill" style="width:0"></div></div><div id="routineList"></div></div></section>
 
-<!-- OTHER PAGES -->
-<section id="biz" class="hidden"><div class="card"><h2>💼 Business - Small to Large</h2><div class="grid"><div><input id="bAmt" type="number" placeholder="Amount ₹"><select id="bType"><option>Sale</option><option>Expense</option></select><input id="bNote" placeholder="Note"><button class="btn" onclick="addBiz()">Add Entry</button><h3>Balance: ₹<span id="bal">0</span></h3><div id="bizList"></div></div><div><input id="invCust" placeholder="Customer"><input id="invAmt" type="number" placeholder="Amount ₹"><button class="btn2" onclick="genInvoice()">Generate Invoice</button><div id="invOut"></div></div></div></div></section>
-<section id="dev" class="hidden"><div class="card"><h2>💻 Developer - All Domains</h2><textarea id="codeIn" rows="4" placeholder="Paste code / error / idea"></textarea><select id="codeMode"><option>Explain Code</option><option>Fix Bug</option><option>Make Project Plan</option><option>Interview Prep</option></select><button class="btn" onclick="codeHelp()">Get Help</button><div id="codeOut"></div></div></section>
-<section id="farm" class="hidden"><div class="card"><h2>🌾 Farmer</h2><input id="mandi" placeholder="Mandi e.g. Patna"><input id="price" type="number" placeholder="Price ₹/Quintal"><button class="btn" onclick="addMandi()">Save Mandi Price</button><div id="mandiList"></div><textarea id="farmQ" placeholder="Ask farming..."></textarea><button class="btn2" onclick="askAIBox('farm')">Ask ZyvaBot</button><div id="farmAns"></div></div></section>
-<section id="study" class="hidden"><div class="card"><h2>📚 Student - School to Govt Exam</h2><select id="exam"><option>JEE</option><option>NEET</option><option>UPSC</option><option>SSC</option><option>B.Tech</option><option>Class 10 / 12</option></select><input id="examDate" type="date"><button class="btn" onclick="makeTimetable()">Make Exam Plan</button><div id="timeOut"></div><div class="grid"><input id="mockName" placeholder="Mock Test"><input id="mockScore" type="number" placeholder="Score"></div><button class="btn2" onclick="addMock()">Save Mock Score</button><div id="mockList"></div></div></section>
-<section id="jobs" class="hidden"><div class="card"><h2>💼 Jobs, Vacancy & News</h2><input id="jobTitle" placeholder="Job Title"><select id="jobType"><option>Govt Job</option><option>Private Job</option><option>Internship</option><option>Scholarship</option></select><input id="jobLink" placeholder="Link / Last Date"><button class="btn" onclick="addJob()">Add Job</button><div id="jobList"></div></div></section>
-<section id="chat" class="hidden"><div class="card"><h2>🤖 ZyvaBot AI</h2><div id="chatBox"><div class="msg ai">Hi! I am ZyvaBot. Ask Business / Coding / Farming / Study. With Gemini Key in Settings, I use Real AI. Without key, Smart Offline AI works.</div></div><input id="chatIn" placeholder="Ask anything..."><button class="btn" onclick="sendChat()">Send</button><br><br><button class="ghost" onclick="quickQ('Business idea for small shop')">Business</button> <button class="ghost" onclick="quickQ('Help me in Python coding')">Coding</button> <button class="ghost" onclick="quickQ('Best fertilizer for paddy')">Farming</button> <button class="ghost" onclick="quickQ('Make timetable for NEET')">Study</button></div></section>
-<section id="settings" class="hidden"><div class="card"><h2>⚙️ Settings - Profile + Real AI</h2>
-<input id="uName" placeholder="Your Name - e.g. Ashish"><input id="uEmail" placeholder="Email"><select id="uRole"><option>Business Owner</option><option>Developer</option><option>Farmer</option><option>Student</option></select>
-<button class="btn" onclick="login()">Save Profile</button><p><small>Profile saves in browser only. No database needed.</small></p>
-<h3>🤖 Real AI (Optional)</h3><select id="aiProvider"><option value="gemini">Google Gemini (Free)</option><option value="openai">OpenAI</option></select><input id="aiKey" placeholder="Paste API Key - stays in YOUR browser only"><input id="aiModel" value="gemini-1.5-flash">
-<button class="btn2" onclick="saveAI()">Save AI Key</button> <span id="aiStatus">Offline AI Active</span><br><br>
-<button class="ghost" onclick="exportData()">⬇️ Export Backup</button> <button class="ghost" onclick="clearAll()">🗑️ Clear All Data</button></div></section>
+<section id="biz" class="hidden"><div class="card"><h2>💼 Business</h2><div class="grid"><div>
+<input id="bAmt" type="number" min="0" placeholder="Amount ₹"><select id="bType"><option>Sale</option><option>Expense</option></select><input id="bDate" type="date"><input id="bNote" placeholder="Note"><button class="btn" id="addBizBtn">Add Entry</button>
+<h3>Balance: ₹<span id="bal">0</span></h3><small id="bizSum"></small><div id="bizList"></div></div>
+<div><h3>🧾 Invoice</h3><input id="invCust" placeholder="Customer name"><input id="invItem" placeholder="Item / service"><input id="invAmt" type="number" min="0" placeholder="Amount ₹">
+<label><input type="checkbox" id="invSale" style="width:auto" checked> Also record as Sale</label><br><button class="btn2" id="genInv">Generate Invoice</button> <button class="ghost" id="printInv">Print</button><div id="invOut" class="out"></div></div></div></div></section>
 
-</div></div>
+<section id="dev" class="hidden"><div class="card"><h2>💻 Developer</h2><textarea id="codeIn" rows="6" placeholder="Paste code / error / idea"></textarea>
+<select id="codeMode"><option>Explain Code</option><option>Fix Bug</option><option>Make Project Plan</option><option>Interview Prep</option></select><button class="btn" id="codeBtn">Get Help</button><div class="out" id="codeOut">Add a Gemini/OpenAI key in Settings for real code help. Without a key you get a checklist.</div></div></section>
+
+<section id="farm" class="hidden"><div class="card"><h2>🌾 Farmer</h2><div class="grid"><input id="mandi" placeholder="Mandi e.g. Patna"><input id="crop" placeholder="Crop e.g. Paddy"></div><input id="price" type="number" min="0" placeholder="Price ₹/Quintal"><button class="btn" id="addMandi">Save Price</button><div id="mandiList"></div><canvas id="c4" height="140"></canvas>
+<h3>Ask about farming</h3><textarea id="farmQ" rows="2" placeholder="Ask in Hindi or English..."></textarea><button class="btn2" id="farmBtn">Ask ZyvaBot</button><div id="farmAns"></div></div></section>
+
+<section id="study" class="hidden"><div class="card"><h2>📚 Student</h2><div class="grid"><select id="exam"><option>JEE</option><option>NEET</option><option>UPSC</option><option>SSC</option><option>B.Tech</option><option>Class 10 / 12</option></select><input id="examDate" type="date"></div>
+<button class="btn" id="mkPlan">Make Exam Plan</button> <button class="ghost" id="planTasks">Add plan to Routine</button><div class="out" id="timeOut">Pick an exam and date.</div>
+<h3>📝 Mock tests</h3><div class="grid"><input id="mockName" placeholder="Mock test name"><input id="mockScore" type="number" placeholder="Score"></div><button class="btn2" id="addMock">Save Score</button><div id="mockList"></div></div></section>
+
+<section id="jobs" class="hidden"><div class="card"><h2>💼 Jobs, Vacancy & News</h2><input id="jobTitle" placeholder="Job title"><select id="jobType"><option>Govt Job</option><option>Private Job</option><option>Internship</option><option>Scholarship</option></select><div class="grid"><input id="jobLink" placeholder="Link (https://...)"><input id="jobDate" type="date"></div><button class="btn" id="addJob">Add</button>
+<p><button class="ghost" id="jobAI">✨ Latest openings tips (AI)</button></p><div id="jobList"></div><div class="out hidden" id="jobOut"></div></div></section>
+
+<section id="chat" class="hidden"><div class="card"><h2>🤖 ZyvaBot AI</h2><div id="chatBox"></div><div style="display:flex;gap:8px"><input id="chatIn" placeholder="Ask anything... (Enter to send)"><button class="btn" id="sendBtn">Send</button></div>
+<p><button class="ghost" data-q="Business idea for small shop">Business</button> <button class="ghost" data-q="Help me in Python coding">Coding</button> <button class="ghost" data-q="Best fertilizer for paddy">Farming</button> <button class="ghost" data-q="Make timetable for NEET">Study</button> <button class="ghost" id="clrChat">Clear chat</button></p></div></section>
+
+<section id="settings" class="hidden"><div class="card"><h2>⚙️ Settings</h2>
+<input id="uName" placeholder="Your name"><input id="uEmail" placeholder="Email"><select id="uRole"><option>Business Owner</option><option>Developer</option><option>Farmer</option><option>Student</option></select><button class="btn" id="saveProf">Save Profile</button>
+<h3>🤖 Real AI (optional)</h3><select id="aiProvider"><option value="gemini">Google Gemini (free key from aistudio.google.com)</option><option value="openai">OpenAI</option></select><input id="aiKey" type="password" placeholder="API key — stored only in this browser"><input id="aiModel" placeholder="Model">
+<button class="btn2" id="saveAI">Save & Test</button> <button class="ghost" id="rmAI">Remove key</button> <span id="aiStatus">Offline AI active</span>
+<h3>🔔 Reminders</h3><button class="ghost" id="notifBtn">Enable notifications</button>
+<h3>💾 Data</h3><button class="ghost" id="expData">⬇️ Export backup</button> <label class="ghost" style="display:inline-block;cursor:pointer">⬆️ Import backup<input type="file" id="impData" accept=".json" hidden></label> <button class="ghost" id="clrAll">🗑️ Clear all</button></div></section>
+</div></div><div id="toast"></div>
 <script>
-let S=JSON.parse(localStorage.getItem('zyv3')||'null');
-if(!S){S={tasks:[{t:'Complete PMAY Survey Report',c:'Business',p:'🔴 High Priority',d:new Date().toISOString().slice(0,10),time:'10:00',s:'Doing'},{t:'Revise Biology Ch-3',c:'Study',p:'🟡 Medium',d:new Date().toISOString().slice(0,10),time:'17:00',s:'Upcoming'},{t:'Check Paddy Mandi Price',c:'Farming',p:'🟢 Low',d:new Date().toISOString().slice(0,10),time:'08:00',s:'Done'}],events:[{t:'Village Survey Camp',d:new Date().toISOString().slice(0,10),time:'09:00',n:'Patna Village - 20 Students'}],routines:[{type:'Student Routine',time:'06:00',t:'Wake + Exercise',done:true},{type:'Student Routine',time:'07:00',t:'Study - Hard Subject',done:false}],biz:[{amt:5000,type:'Sale',note:'Kirana Sale'},{amt:1200,type:'Expense',note:'Stock Purchase'}],jobs:[{t:'Bihar Police Constable 2026',type:'Govt Job',link:'Last Date: Check Portal'}],mocks:[{n:'NEET Mock 1',s:420}],mandis:[{m:'Patna Mandi',p:2200}]};localStorage.setItem('zyv3',JSON.stringify(S))}
-let user=JSON.parse(localStorage.getItem('zy_user3')||'null');let calDate=new Date();calDate.setDate(1);
-function save(){localStorage.setItem('zyv3',JSON.stringify(S));localStorage.setItem('zy_user3',JSON.stringify(user));render();drawBI();renderCal()}
-function login(){user={name:uName.value||'Ashish',email:uEmail.value,role:uRole.value};save();welcomeName.textContent=user.name+' 👋';alert('Profile Saved ✅')}
-function saveAI(){localStorage.setItem('zy_ai',JSON.stringify({p:aiProvider.value,k:aiKey.value,m:aiModel.value}));aiStatus.textContent='✅ Real AI Connected: '+aiProvider.value;alert('AI Key Saved')}
-function exportData(){let b=new Blob([JSON.stringify(S)]);let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zyvaone-backup.json';a.click()}
-function clearAll(){if(confirm('Clear all?')){localStorage.removeItem('zyv3');location.reload()}}
-function exportCSV(){let csv='Title,Category,Date,Status\n'+S.tasks.map(t=>`${t.t},${t.c},${t.d},${t.s}`).join('\n');let b=new Blob([csv]);let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zyvaone-powerbi.csv';a.click()}
-// FIXED TAB SWITCHING - Only 1 section visible
-function showPage(id){document.querySelectorAll('main section, .main section').forEach(s=>s.classList.add('hidden'));document.querySelectorAll('.main section').forEach(s=>s.classList.add('hidden'));let el=document.getElementById(id);if(el)el.classList.remove('hidden');document.querySelectorAll('.sbtn').forEach(b=>b.classList.toggle('active',b.dataset.t===id));document.querySelectorAll('#mnav button').forEach(b=>b.classList.toggle('active',b.dataset.t===id));window.scrollTo(0,0)}
-document.querySelectorAll('.sbtn, #mnav button').forEach(b=>b.onclick=()=>showPage(b.dataset.t));
-todayTxt.textContent=new Date().toDateString();if(user)welcomeName.textContent=user.name+' 👋';
-function addTask(){if(!taskTitle.value)return alert('Enter task');S.tasks.push({t:taskTitle.value,c:taskCat.value,p:taskPri.value,d:taskDate.value||new Date().toISOString().slice(0,10),time:taskTime.value,s:taskStatus.value});taskTitle.value='';save()}
-function addEvent(){if(!evTitle.value)return alert('Enter event');S.events.push({t:evTitle.value,d:evDate.value||new Date().toISOString().slice(0,10),time:evTime.value,n:evNote.value});save();alert('Event Added 🎉')}
-function addRoutine(){S.routines.push({type:routineType.value,time:routineTime.value,t:routineTask.value,done:false});save()}
-function autoRoutine(){let r=[['06:00','Wake + Exercise'],['07:00','Deep Study / Deep Work'],['10:00','Practice / Mock'],['14:00','Weak Topic'],['17:00','Revision + Notes'],['20:00','Review with ZyvaBot']];r.forEach(x=>S.routines.push({type:routineType.value,time:x[0],t:x[1],done:false}));save()}
-function addBiz(){S.biz.push({amt:+bAmt.value||0,type:bType.value,note:bNote.value});save()}
-function genInvoice(){invOut.innerHTML=`<div style="border:1px dashed #000;padding:10px"><b>ZyvaOne Invoice</b><br>${invCust.value} - ₹${invAmt.value}<br>Thank You 🙏</div>`}
-function genReport(){reportOut.textContent=`PROJECT REPORT - ${projName.value}\nObjective: ${projDesc.value}\nPlan: Requirement > Design > Development > Testing > Report\nResult: Completed successfully.`}
-function genPPT(){reportOut.textContent=`PPT: 1 Title, 2 Problem, 3 Solution, 4 Features, 5 Tech, 6 Demo, 7 Result, 8 Thank You - ${projName.value}`}
-function genPaper(){reportOut.textContent=`RESEARCH PAPER: Abstract, Introduction, Literature, Methodology, Results, Conclusion, References - ${projName.value}`}
-function codeHelp(){codeOut.innerHTML=`<div class="card">ZyvaBot: Break "${codeIn.value}" into 3 parts. Pseudo-code first, test 2 examples. Mode: ${codeMode.value}. Ask full code in ZyvaBot Chat.</div>`}
-function addMandi(){S.mandis.push({m:mandi.value,p:price.value});save()}
-function makeTimetable(){timeOut.innerHTML=`<b>${exam.value} Plan on ${examDate.value}</b><br>6 AM Revise, 8 AM New Topic, 11 AM Mock, 2 PM Weak, 5 PM Notes, 8 PM ZyvaBot Doubt. Sunday Full Mock.`}
-function addMock(){S.mocks.push({n:mockName.value,s:+mockScore.value});save()}
-function addJob(){S.jobs.push({t:jobTitle.value,type:jobType.value,link:jobLink.value});save()}
-function render(){taskList.innerHTML=S.tasks.map((t,i)=>`<div class="task"><span><b>${t.t}</b><br><small>${t.c} • ${t.p} • 📅 ${t.d} ⏰ ${t.time||''} • ${t.s}</small></span><span><button onclick="S.tasks[${i}].s='Done';save()">✅</button><button onclick="S.tasks.splice(${i},1);save()">❌</button></span></div>`).join('')||'No tasks';
-kpiTask.textContent=S.tasks.length;kpiDone.textContent=S.tasks.filter(t=>t.s=='Done').length;kpiEvent.textContent=S.events.length;kpiBal.textContent='₹'+S.biz.reduce((a,b)=>a+(b.type=='Sale'?b.amt:-b.amt),0);
-let p=S.tasks.length?Math.round(S.tasks.filter(t=>t.s=='Done').length/S.tasks.length*100):0;progFill.style.width=p+'%';progTxt.textContent=p+'% Complete';
-eventList.innerHTML=S.events.map((e,i)=>`<div class="task"><span><b>🎉 ${e.t}</b><br><small>📅 ${e.d} ⏰ ${e.time} - ${e.n}</small></span><button onclick="S.events.splice(${i},1);save()">❌</button></div>`).join('');
-routineList.innerHTML=S.routines.map((r,i)=>`<div class="task"><span><b>${r.time} - ${r.t}</b><br><small>${r.type}</small></span><span>${r.done?'✅ Done':'⏳'} <button onclick="S.routines[${i}].done=!S.routines[${i}].done;save()">Toggle</button></span></div>`).join('');
-bizList.innerHTML=S.biz.map(b=>`<div>${b.type}: ₹${b.amt} - ${b.note}</div>`).join('');bal.textContent=S.biz.reduce((a,b)=>a+(b.type=='Sale'?b.amt:-b.amt),0);
-jobList.innerHTML=S.jobs.map(j=>`<div class="task"><b>${j.t}</b> <span class="badge">${j.type}</span><br><small>${j.link}</small></div>`).join('');
-mockList.innerHTML=S.mocks.map(m=>`<div>📝 ${m.n} - ${m.s}</div>`).join('');mandiList.innerHTML=S.mandis.map(m=>`<div>🌾 ${m.m} - ₹${m.p}</div>`).join('')}
-function renderCal(){let y=calDate.getFullYear(),m=calDate.getMonth();calTitle.textContent=calDate.toLocaleString('en',{month:'long',year:'numeric'});let first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();let html='';for(let i=0;i<first;i++)html+='<div></div>';for(let d=1;d<=days;d++){let ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;let has=S.tasks.some(t=>t.d==ds)||S.events.some(e=>e.d==ds);let isToday=ds==new Date().toISOString().slice(0,10);html+=`<div class="day ${isToday?'today':''} ${has?'has':''}" onclick="pickDate('${ds}')">${d}${has?'<br>📌':''}</div>`}calGrid.innerHTML=html}
-function changeMonth(n){calDate.setMonth(calDate.getMonth()+n);renderCal()}
-function pickDate(ds){evDate.value=ds;taskDate.value=ds;alert('Selected: '+ds+'\nNow add Task / Event - it will save on this date 📅')}
-function drawBI(){let f=biFilter.value;let tasks=S.tasks.filter(t=>f=='All'||t.c==f);let done=tasks.filter(t=>t.s=='Done').length;biSale.textContent='₹'+S.biz.filter(b=>b.type=='Sale').reduce((a,b)=>a+b.amt,0);biExp.textContent='₹'+S.biz.filter(b=>b.type=='Expense').reduce((a,b)=>a+b.amt,0);biScore.textContent=S.mocks.length?Math.round(S.mocks.reduce((a,b)=>a+b.s,0)/S.mocks.length):0;
-let c=document.getElementById('biChart');let ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);let vals=[tasks.length,done,S.events.length,S.mocks.length];let labels=['Tasks','Done','Events','Mocks'];vals.forEach((v,i)=>{ctx.fillStyle='#2563eb';ctx.fillRect(40+i*70,140-v*10,40,v*10);ctx.fillStyle='#000';ctx.fillText(labels[i]+':'+v,35+i*70,160)});
-let c2=document.getElementById('biChart2');let x2=c2.getContext('2d');x2.clearRect(0,0,c2.width,c2.height);x2.fillStyle='#059669';S.biz.slice(-6).forEach((b,i)=>{x2.fillRect(30+i*50,90-(b.amt%90),35,b.amt%90)});x2.fillStyle='#000';x2.fillText('Business Trend - Like Power BI',10,120)}
-function offlineAI(q){q=q.toLowerCase();if(q.includes('business')||q.includes('shop'))return "Business: Low investment - Tiffin, Kirana + Delivery, Mobile Repair. Track sale daily, post 1 WhatsApp offer, save 20% profit.";
-if(q.includes('python')||q.includes('code')||q.includes('bug'))return "Coding: for i in range(5): print(i). Check spelling, brackets, indentation. Break big problem into 3 parts.";
-if(q.includes('paddy')||q.includes('fertilizer')||q.includes('farming')||q.includes('kisan'))return "Farming: Paddy - Urea in 2 parts, water 2-3 inch. Wheat - Sow Nov-Dec, irrigation after 21 days. Check Mandi + PM-KISAN.";
-if(q.includes('study')||q.includes('neet')||q.includes('jee')||q.includes('upsc')||q.includes('exam'))return "Study: 6 AM Revise, 8 AM New Topic, 11 AM 30 MCQ, 2 PM Weak, 5 PM Notes, 8 PM Doubt. 25 min focus + 5 min break.";
-return "Tell me Business / Coding / Farming / Study topic and I will give step-by-step plan."}
-async function realAI(q){let cfg=JSON.parse(localStorage.getItem('zy_ai')||'null');if(!cfg||!cfg.k)return null;try{if(cfg.p=='gemini'){let r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${cfg.m}:generateContent?key=${cfg.k}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:"You are ZyvaOne AI for India. Answer simple Hindi+English. Q: "+q}]}])});let j=await r.json();return j.candidates?.[0]?.content?.parts?.[0]?.text||null}else{let r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.k},body:JSON.stringify({model:cfg.m||'gpt-4o-mini',messages:[{role:'user',content:q}]})});let j=await r.json();return j.choices?.[0]?.message?.content||null}}catch(e){return null}}
-async function askAIBox(sec){let q=document.getElementById(sec+'Q')?.value||'';let ans=await realAI(q)||offlineAI(q);document.getElementById(sec+'Ans').innerHTML=`<div class="msg ai">${ans}</div>`}
-async function sendChat(){let v=chatIn.value;if(!v)return;chatBox.innerHTML+=`<div class="msg me">${v}</div>`;chatBox.innerHTML+=`<div class="msg ai">⏳ Thinking...</div>`;chatIn.value='';let ans=await realAI(v)||offlineAI(v);chatBox.lastElementChild.textContent=ans;chatBox.scrollTop=chatBox.scrollHeight}
-function quickQ(q){chatIn.value=q;sendChat()}
-render();renderCal();drawBI();showPage('home');
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const today=()=>ymd(new Date());
+const rich=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+const safeUrl=u=>/^https?:\/\//i.test(u)?u:'';
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)}
+const td=today();
+const DEF={tasks:[{t:'Complete survey report',c:'Business',p:'🔴 High',d:td,time:'10:00',s:'Doing'},{t:'Revise Biology Ch-3',c:'Study',p:'🟡 Medium',d:td,time:'17:00',s:'Upcoming'},{t:'Check paddy mandi price',c:'Farming',p:'🟢 Low',d:td,time:'08:00',s:'Done'}],
+events:[{t:'Village Survey Camp',d:td,time:'09:00',n:'20 students'}],routines:[{type:'Student Routine',time:'06:00',t:'Wake + Exercise',done:false},{type:'Student Routine',time:'07:00',t:'Study - hard subject',done:false}],
+biz:[{amt:5000,type:'Sale',note:'Kirana sale',d:td},{amt:1200,type:'Expense',note:'Stock purchase',d:td}],jobs:[{t:'Bihar Police Constable',type:'Govt Job',link:'',date:''}],mocks:[{n:'NEET Mock 1',s:420}],mandis:[{m:'Patna',crop:'Paddy',p:2200}],chat:[],invoices:0,plan:null,notified:{}};
+let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem('zyv4')||localStorage.getItem('zyv3')||'null')||{})}catch(e){S=JSON.parse(JSON.stringify(DEF))}
+let user=null,cfg=null,theme=localStorage.getItem('zy_theme')||'';
+try{user=JSON.parse(localStorage.getItem('zy_user3')||'null');cfg=JSON.parse(localStorage.getItem('zy_ai')||'null')}catch(e){}
+let calDate=new Date();calDate.setDate(1);let selDay=today();let lastInv='';
+function persist(){try{localStorage.setItem('zyv4',JSON.stringify(S))}catch(e){toast('Storage full — export a backup')}}
+function save(){persist();render()}
+/* NAV */
+const PAGES=[['home','🏠 Dashboard'],['powerbi','📊 Analytics'],['calendar','📅 Calendar'],['routine','⏰ Routine'],['biz','💼 Business'],['dev','💻 Developer'],['farm','🌾 Farmer'],['study','📚 Student'],['jobs','🔎 Jobs & News'],['chat','🤖 ZyvaBot AI'],['settings','⚙️ Settings']];
+$('snav').innerHTML=PAGES.map(p=>`<button class="sbtn" data-t="${p[0]}">${p[1]}</button>`).join('');
+$('mnav').innerHTML=PAGES.map(p=>`<button data-t="${p[0]}">${p[1]}</button>`).join('');
+function showPage(id){document.querySelectorAll('.main section').forEach(s=>s.classList.toggle('hidden',s.id!==id));document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('active',b.dataset.t===id));location.hash=id;window.scrollTo(0,0);render()}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>showPage(b.dataset.t));
+/* THEME */
+function applyTheme(){document.body.classList.toggle('dark',theme==='dark');$('themeBtn').textContent=theme==='dark'?'☀️':'🌙'}
+$('themeBtn').onclick=()=>{theme=theme==='dark'?'':'dark';localStorage.setItem('zy_theme',theme);applyTheme();drawAll()};
+/* TASKS */
+const NEXT={Upcoming:'Doing',Doing:'Done',Done:'Upcoming'};
+$('addTaskBtn').onclick=()=>{const t=$('taskTitle').value.trim();if(!t)return toast('Enter a task title');S.tasks.push({t,c:$('taskCat').value,p:$('taskPri').value,d:$('taskDate').value||today(),time:$('taskTime').value,s:'Upcoming'});$('taskTitle').value='';save();toast('Task added')};
+$('taskTitle').onkeydown=e=>{if(e.key==='Enter')$('addTaskBtn').click()};
+$('taskFilter').onchange=render;
+function taskHTML(t,i,showDate){return `<div class="task ${t.s==='Done'?'done':''}"><span><b>${esc(t.t)}</b><br><small>${esc(t.c)} • ${esc(t.p)} • ${showDate?'📅 '+esc(t.d)+' ':''}⏰ ${esc(t.time||'--')} • ${esc(t.s)}</small></span><span class="acts"><button class="sm" data-a="tcycle" data-i="${i}" title="Change status">⟳</button><button class="sm" data-a="tedit" data-i="${i}" title="Edit">✏️</button><button class="sm" data-a="tdel" data-i="${i}" title="Delete">❌</button></span></div>`}
+/* EVENTS */
+$('addEvBtn').onclick=()=>{const t=$('evTitle').value.trim();if(!t)return toast('Enter event name');S.events.push({t,d:$('evDate').value||selDay,time:$('evTime').value,n:$('evNote').value});$('evTitle').value='';$('evNote').value='';save();toast('Event added')};
+function renderCal(){const y=calDate.getFullYear(),m=calDate.getMonth();$('calTitle').textContent=calDate.toLocaleString('en',{month:'long',year:'numeric'});
+const first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();let h='';for(let i=0;i<first;i++)h+='<div></div>';
+for(let d=1;d<=n;d++){const ds=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');const has=S.tasks.some(t=>t.d===ds)||S.events.some(e=>e.d===ds);h+=`<div class="day ${ds===today()?'today':''} ${ds===selDay?'sel':''} ${has?'has':''}" data-a="pick" data-d="${ds}">${d}${has?'<br>📌':''}</div>`}
+$('calGrid').innerHTML=h;$('dayTitle').textContent='📌 '+selDay;
+const ts=S.tasks.map((t,i)=>[t,i]).filter(x=>x[0].d===selDay),es=S.events.map((e,i)=>[e,i]).filter(x=>x[0].d===selDay);
+$('dayList').innerHTML=es.map(([e,i])=>`<div class="task" style="border-left-color:#7c3aed"><span><b>🎉 ${esc(e.t)}</b><br><small>⏰ ${esc(e.time||'--')} ${esc(e.n)}</small></span><span class="acts"><button class="sm" data-a="edel" data-i="${i}">❌</button></span></div>`).join('')+ts.map(([t,i])=>taskHTML(t,i,false)).join('')||'<small>Nothing on this day. Add a task or event.</small>';
+$('evDate').value=selDay;$('taskDate').value=selDay}
+$('prevM').onclick=()=>{calDate.setMonth(calDate.getMonth()-1);renderCal()};$('nextM').onclick=()=>{calDate.setMonth(calDate.getMonth()+1);renderCal()};
+/* ROUTINE */
+const AUTO={'Student Routine':[['06:00','Wake + exercise'],['07:00','Deep study'],['10:00','Practice / mock'],['14:00','Weak topics'],['17:00','Revision + notes'],['20:00','Doubt clearing']],
+'Business Routine':[['07:00','Plan the day'],['09:00','Open shop / calls'],['13:00','Follow up customers'],['18:00','Update accounts'],['21:00','Review sales']],
+'Developer Routine':[['06:30','Exercise'],['08:00','Deep work'],['13:00','Learn / DSA'],['16:00','Project work'],['21:00','Review + commit']],
+'Farmer Routine':[['05:00','Field check'],['07:00','Irrigation / spraying'],['11:00','Mandi price check'],['16:00','Field work'],['19:00','Plan tomorrow']],
+'Morning Routine':[['05:30','Wake'],['06:00','Exercise'],['07:00','Bath + breakfast'],['08:00','Plan top 3 tasks']]};
+$('addRtBtn').onclick=()=>{if(!$('routineTask').value.trim())return toast('Enter a routine task');S.routines.push({type:$('routineType').value,time:$('routineTime').value,t:$('routineTask').value.trim(),done:false});$('routineTask').value='';save()};
+$('autoRt').onclick=()=>{const ty=$('routineType').value;(AUTO[ty]||[]).forEach(x=>{if(!S.routines.some(r=>r.type===ty&&r.time===x[0]&&r.t===x[1]))S.routines.push({type:ty,time:x[0],t:x[1],done:false})});save();toast('Routine generated')};
+$('resetRt').onclick=()=>{S.routines.forEach(r=>r.done=false);save()};
+/* BUSINESS */
+$('addBizBtn').onclick=()=>{const a=+$('bAmt').value;if(!(a>0))return toast('Enter a valid amount');S.biz.push({amt:a,type:$('bType').value,note:$('bNote').value,d:$('bDate').value||today()});$('bAmt').value='';$('bNote').value='';save()};
+$('genInv').onclick=()=>{const c=$('invCust').value.trim(),a=+$('invAmt').value;if(!c||!(a>0))return toast('Enter customer and amount');S.invoices=(S.invoices||0)+1;
+lastInv=`ZYVAONE INVOICE #${String(S.invoices).padStart(4,'0')}\nDate: ${today()}\nCustomer: ${c}\nItem: ${$('invItem').value||'Goods / services'}\nTotal: ₹${a.toFixed(2)}\n\nThank you 🙏`;
+if($('invSale').checked)S.biz.push({amt:a,type:'Sale',note:'Invoice '+c,d:today()});$('invOut').textContent=lastInv;save()};
+$('printInv').onclick=()=>{if(!lastInv)return toast('Generate an invoice first');const w=window.open('','_blank');if(!w)return toast('Allow pop-ups to print');w.document.write('<pre style="font:16px monospace;padding:30px">'+esc(lastInv)+'</pre>');w.document.close();w.print()};
+/* DEV */
+const DEVOFF={'Explain Code':'1) Read top to bottom and name each function in one line.\n2) Trace inputs → outputs with a small example.\n3) Note loops/conditions and edge cases.\n(Add an AI key for line-by-line explanation.)','Fix Bug':'1) Read the exact error message and line number.\n2) Check spelling, brackets, indentation, types.\n3) Print variables before the failing line.\n4) Reduce to the smallest failing example.','Make Project Plan':'1) Define the problem + users.\n2) List 5 must-have features.\n3) Pick stack, sketch data model.\n4) Build MVP in 1 week, test, then iterate.','Interview Prep':'1) Revise arrays, strings, hash maps, recursion.\n2) Solve 2 problems/day, explain aloud.\n3) Prepare 3 project stories.\n4) Mock interview weekly.'};
+$('codeBtn').onclick=async()=>{const v=$('codeIn').value.trim();if(!v)return toast('Paste code or an idea');$('codeOut').textContent='⏳ Thinking...';const r=await realAI(`${$('codeMode').value} for this:\n\n${v}`);$('codeOut').innerHTML=r?rich(r):esc(DEVOFF[$('codeMode').value])};
+/* FARM */
+$('addMandi').onclick=()=>{if(!$('mandi').value.trim()||!(+$('price').value>0))return toast('Enter mandi and price');S.mandis.push({m:$('mandi').value.trim(),crop:$('crop').value.trim()||'—',p:+$('price').value});$('mandi').value='';$('price').value='';save()};
+$('farmBtn').onclick=async()=>{const q=$('farmQ').value.trim();if(!q)return;$('farmAns').innerHTML='<div class="msg ai">⏳ Thinking...</div>';const a=await ask('Farming question for an Indian farmer: '+q,q);$('farmAns').innerHTML=`<div class="msg ai">${rich(a)}</div>`};
+/* STUDY */
+const SUBJ={JEE:'Physics, Chemistry, Maths',NEET:'Physics, Chemistry, Biology',UPSC:'Polity, History, Geography, Economy, Current Affairs',SSC:'Quant, Reasoning, English, GK','B.Tech':'Core subjects, Maths, Labs','Class 10 / 12':'All board subjects + practicals'};
+$('mkPlan').onclick=()=>{const ex=$('exam').value,dt=$('examDate').value;let days='';if(dt){const n=Math.ceil((new Date(dt+'T00:00')-new Date(today()+'T00:00'))/864e5);days=n>=0?`⏳ ${n} days left\n`+(n>60?'Phase: build concepts (70% learn / 30% practice)':n>20?'Phase: practice + weak topics (50/50)':'Phase: revision + full mocks (20/80)'):'⚠️ Exam date has passed — pick a new date.'}
+S.plan=`${ex} PLAN\n${days}\nSubjects: ${SUBJ[ex]}\n\n06:00 Revise yesterday\n08:00 New topic\n11:00 Mock / 30 MCQs\n14:00 Weak topics\n17:00 Notes\n20:00 Doubts\nSunday: full mock + analysis\nTip: 25 min focus + 5 min break`;$('timeOut').textContent=S.plan;persist()};
+$('planTasks').onclick=()=>{if(!S.plan)return toast('Make a plan first');AUTO['Student Routine'].forEach(x=>{if(!S.routines.some(r=>r.type==='Student Routine'&&r.time===x[0]&&r.t===x[1]))S.routines.push({type:'Student Routine',time:x[0],t:x[1],done:false})});save();toast('Added to Routine')};
+$('addMock').onclick=()=>{if(!$('mockName').value.trim()||$('mockScore').value==='')return toast('Enter name and score');S.mocks.push({n:$('mockName').value.trim(),s:+$('mockScore').value});$('mockName').value='';$('mockScore').value='';save()};
+/* JOBS */
+$('addJob').onclick=()=>{if(!$('jobTitle').value.trim())return toast('Enter job title');const l=$('jobLink').value.trim();if(l&&!safeUrl(l))return toast('Link must start with http(s)://');S.jobs.push({t:$('jobTitle').value.trim(),type:$('jobType').value,link:l,date:$('jobDate').value});$('jobTitle').value='';$('jobLink').value='';save()};
+$('jobAI').onclick=async()=>{const o=$('jobOut');o.classList.remove('hidden');o.textContent='⏳ Thinking...';const a=await ask('Give practical tips for finding latest government and private jobs in India, with official portals to check (ncs.gov.in, employmentnews, sarkariresult-type official sites). Be brief.','jobs');o.innerHTML=rich(a)};
+/* AI */
+const DEFMODEL={gemini:'gemini-2.5-flash',openai:'gpt-4o-mini'};
+async function realAI(q,hist){if(!cfg||!cfg.k)return null;try{
+if(cfg.p==='gemini'){const m=cfg.m||DEFMODEL.gemini;const contents=(hist||[]).map(h=>({role:h.r==='me'?'user':'model',parts:[{text:h.t}]}));contents.push({role:'user',parts:[{text:q}]});
+const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':cfg.k},body:JSON.stringify({systemInstruction:{parts:[{text:'You are ZyvaOne AI for Indian users: business, coding, farming, study. Answer clearly in simple English/Hindi matching the user. Be concise and practical.'}]},contents})});
+const j=await r.json();if(j.error)throw new Error(j.error.message);return j.candidates?.[0]?.content?.parts?.map(p=>p.text).join('')||null}
+const msgs=[{role:'system',content:'You are ZyvaOne AI for Indian users: business, coding, farming, study. Be concise and practical.'},...(hist||[]).map(h=>({role:h.r==='me'?'user':'assistant',content:h.t})),{role:'user',content:q}];
+const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+cfg.k},body:JSON.stringify({model:cfg.m||DEFMODEL.openai,messages:msgs})});
+const j=await r.json();if(j.error)throw new Error(j.error.message);return j.choices?.[0]?.message?.content||null}
+catch(e){toast('AI error: '+e.message+' — using offline AI');return null}}
+const RULES=[[/business|shop|dukan|profit/,'**Business:** Low-investment ideas — tiffin service, kirana + home delivery, mobile repair, tuition. Track sales daily, post one WhatsApp offer, save 20% of profit.'],
+[/python|code|bug|error|java|html/,'**Coding:** Break the problem into 3 parts, write pseudo-code first, test with 2 examples. Check spelling, brackets and indentation. Add an AI key in Settings for full code help.'],
+[/paddy|dhan|wheat|fertili|farm|kisan|crop|khad/,'**Farming:** Paddy — urea in 2–3 splits, keep 2–3 inch water. Wheat — sow Nov–Dec, first irrigation ~21 days. Check mandi rates and PM-KISAN status.'],
+[/study|neet|jee|upsc|ssc|exam|timetable/,'**Study:** 6 AM revise • 8 AM new topic • 11 AM 30 MCQs • 2 PM weak topics • 5 PM notes • 8 PM doubts. 25 min focus + 5 min break. Full mock every Sunday.'],
+[/job|vacancy|sarkari|naukri/,'**Jobs:** Check official portals (ncs.gov.in, state PSC/police sites), set reminders for last dates, keep documents ready.']];
+const offline=q=>{q=q.toLowerCase();const r=RULES.find(x=>x[0].test(q));return r?r[1]:'Tell me a Business / Coding / Farming / Study topic and I will give a step-by-step plan. (Add an AI key in Settings for open questions.)'};
+async function ask(q,off,hist){return await realAI(q,hist)||offline(off||q)}
+async function sendChat(txt){const v=(txt??$('chatIn').value).trim();if(!v)return;$('chatIn').value='';const hist=S.chat.slice(-10);S.chat.push({r:'me',t:v});drawChat('⏳ Thinking...');persist();const a=await ask(v,v,hist);S.chat.push({r:'ai',t:a});S.chat=S.chat.slice(-60);persist();drawChat()}
+function drawChat(pending){$('chatBox').innerHTML=(S.chat.length?'':'<div class="msg ai">Hi! I am ZyvaBot. Ask about business, coding, farming or study.</div>')+S.chat.map(m=>`<div class="msg ${m.r}">${rich(m.t)}</div>`).join('')+(pending?`<div class="msg ai">${pending}</div>`:'');$('chatBox').scrollTop=1e9}
+$('sendBtn').onclick=()=>sendChat();$('chatIn').onkeydown=e=>{if(e.key==='Enter')sendChat()};
+document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>sendChat(b.dataset.q));$('clrChat').onclick=()=>{S.chat=[];persist();drawChat()};
+/* REPORTS */
+const GEN={report:(n,d)=>`PROJECT REPORT — ${n}\n\n1. Objective\n${d}\n\n2. Approach\nRequirement → Design → Development → Testing → Delivery\n\n3. Outcome\n(Add numbers: people reached, time saved, results.)\n\n4. Next steps\n- \n- `,
+ppt:(n)=>`PPT OUTLINE — ${n}\n1 Title\n2 Problem\n3 Solution\n4 Key features\n5 Tools / method\n6 Demo / evidence\n7 Results\n8 Next steps\n9 Thank you`,
+paper:(n,d)=>`RESEARCH PAPER — ${n}\nAbstract: ${d}\nSections: Introduction • Literature review • Methodology • Results • Discussion • Conclusion • References`};
+document.querySelectorAll('[data-gen]').forEach(b=>b.onclick=()=>{const n=$('projName').value.trim();if(!n)return toast('Enter project name');$('reportOut').textContent=GEN[b.dataset.gen](n,$('projDesc').value.trim()||'(describe your work)')});
+$('copyRep').onclick=()=>navigator.clipboard?.writeText($('reportOut').textContent).then(()=>toast('Copied'),()=>toast('Copy failed'));
+$('aiRep').onclick=async()=>{const t=$('reportOut').textContent;if(t.startsWith('Your output'))return toast('Generate first');if(!cfg?.k)return toast('Add an AI key in Settings');$('reportOut').textContent='⏳ Improving...';const a=await realAI('Improve and complete this document professionally:\n'+t);$('reportOut').textContent=a||t};
+/* SETTINGS */
+$('saveProf').onclick=()=>{user={name:$('uName').value.trim()||'Ashish',email:$('uEmail').value,role:$('uRole').value};localStorage.setItem('zy_user3',JSON.stringify(user));render();toast('Profile saved')};
+$('aiProvider').onchange=()=>{$('aiModel').value=DEFMODEL[$('aiProvider').value]};
+$('saveAI').onclick=async()=>{const k=$('aiKey').value.trim();if(!k)return toast('Paste an API key');cfg={p:$('aiProvider').value,k,m:$('aiModel').value.trim()||DEFMODEL[$('aiProvider').value]};localStorage.setItem('zy_ai',JSON.stringify(cfg));$('aiStatus').textContent='Testing...';const r=await realAI('Reply with the single word: OK');$('aiStatus').textContent=r?'✅ Real AI connected':'❌ Test failed — check key/model'};
+$('rmAI').onclick=()=>{cfg=null;localStorage.removeItem('zy_ai');$('aiKey').value='';$('aiStatus').textContent='Offline AI active';toast('Key removed')};
+$('notifBtn').onclick=()=>{if(!('Notification' in window))return toast('Not supported here');Notification.requestPermission().then(p=>toast(p==='granted'?'Reminders on':'Permission denied'))};
+function dl(name,txt,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+$('expData').onclick=()=>dl('zyvaone-backup.json',JSON.stringify(S),'application/json');
+$('impData').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.tasks))throw 0;S=Object.assign({},DEF,d);save();toast('Backup restored')}catch(x){toast('Invalid backup file')}};r.readAsText(f);e.target.value=''};
+$('clrAll').onclick=()=>{if(confirm('Delete ALL data?')){['zyv3','zyv4','zy_user3'].forEach(k=>localStorage.removeItem(k));location.reload()}};
+const csvc=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+$('expCsv').onclick=()=>dl('zyvaone-data.csv','Type,Title/Note,Category/Kind,Date,Status/Amount\n'+S.tasks.map(t=>['Task',t.t,t.c,t.d,t.s].map(csvc).join(',')).concat(S.biz.map(b=>['Business',b.note,b.type,b.d||'',b.amt].map(csvc).join(','))).join('\n'),'text/csv');
+/* SEARCH */
+function doSearch(){const q=$('q').value.trim().toLowerCase();if(!q)return;showPage('home');const hit=(...a)=>a.join(' ').toLowerCase().includes(q);
+const r=[...S.tasks.filter(t=>hit(t.t,t.c,t.s)).map(t=>'✅ '+t.t+' ('+t.d+')'),...S.events.filter(e=>hit(e.t,e.n)).map(e=>'🎉 '+e.t+' ('+e.d+')'),...S.jobs.filter(j=>hit(j.t,j.type)).map(j=>'💼 '+j.t),...S.biz.filter(b=>hit(b.note,b.type)).map(b=>'₹ '+b.type+' '+b.amt+' '+b.note),...S.mandis.filter(m=>hit(m.m,m.crop)).map(m=>'🌾 '+m.m+' '+m.crop),...S.routines.filter(x=>hit(x.t,x.type)).map(x=>'⏰ '+x.time+' '+x.t)];
+$('searchBox').classList.remove('hidden');$('searchOut').innerHTML=r.length?r.map(x=>`<div class="task">${esc(x)}</div>`).join(''):'<small>No matches.</small>'}
+$('q').onkeydown=e=>{if(e.key==='Enter')doSearch()};$('clrSearch').onclick=()=>{$('q').value='';$('searchBox').classList.add('hidden')};
+/* CHARTS */
+function chart(id,labels,series,colors,line){const c=$(id);if(!c)return;const dpr=window.devicePixelRatio||1,W=c.clientWidth||300,H=+c.getAttribute('height');if(!c.clientWidth)return;c.width=W*dpr;c.height=H*dpr;const x=c.getContext('2d');x.scale(dpr,dpr);x.clearRect(0,0,W,H);
+const dk=document.body.classList.contains('dark'),fg=dk?'#cbd5e1':'#334155';x.font='12px Inter,sans-serif';
+const max=Math.max(1,...series.flat());if(!labels.length){x.fillStyle=fg;x.fillText('No data yet',10,30);return}
+const pw=W-40,ph=H-35,gw=pw/labels.length;x.strokeStyle=dk?'#26324d':'#e2e8f0';x.beginPath();x.moveTo(30,5);x.lineTo(30,ph+5);x.lineTo(W-5,ph+5);x.stroke();x.fillStyle=fg;x.fillText(max,2,14);
+if(line){x.strokeStyle=colors[0];x.lineWidth=2.5;x.beginPath();series[0].forEach((v,i)=>{const px=30+gw*i+gw/2,py=ph+5-v/max*ph;i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke();series[0].forEach((v,i)=>{const px=30+gw*i+gw/2,py=ph+5-v/max*ph;x.fillStyle=colors[0];x.beginPath();x.arc(px,py,4,0,7);x.fill()})}
+else series.forEach((s,k)=>{const bw=Math.min(40,gw*.7/series.length);s.forEach((v,i)=>{const h=v/max*ph,px=30+gw*i+(gw-bw*series.length)/2+k*bw;x.fillStyle=colors[k];x.fillRect(px,ph+5-h,bw-2,h)})});
+x.fillStyle=fg;labels.forEach((l,i)=>x.fillText(String(l).slice(0,8),30+gw*i+4,H-8))}
+function drawAll(){const f=$('biFilter').value,ts=S.tasks.filter(t=>f==='All'||t.c===f);
+$('biSale').textContent='₹'+S.biz.filter(b=>b.type==='Sale').reduce((a,b)=>a+b.amt,0);$('biExp').textContent='₹'+S.biz.filter(b=>b.type==='Expense').reduce((a,b)=>a+b.amt,0);$('biScore').textContent=S.mocks.length?Math.round(S.mocks.reduce((a,b)=>a+b.s,0)/S.mocks.length):0;
+chart('c1',['Upcoming','Doing','Done'],[['Upcoming','Doing','Done'].map(s=>ts.filter(t=>t.s===s).length)],['#2563eb']);
+const dates=[...new Set(S.biz.map(b=>b.d||''))].sort().slice(-7);chart('c2',dates.map(d=>d.slice(5)),[dates.map(d=>S.biz.filter(b=>(b.d||'')===d&&b.type==='Sale').reduce((a,b)=>a+b.amt,0)),dates.map(d=>S.biz.filter(b=>(b.d||'')===d&&b.type==='Expense').reduce((a,b)=>a+b.amt,0))],['#059669','#ef4444']);
+chart('c3',S.mocks.map((m,i)=>'#'+(i+1)),[S.mocks.map(m=>m.s)],['#7c3aed'],true);
+const mm=S.mandis.slice(-8);chart('c4',mm.map(m=>m.m),[mm.map(m=>m.p)],['#d97706'])}
+$('biFilter').onchange=drawAll;window.addEventListener('resize',drawAll);
+/* RENDER */
+function render(){
+$('welcomeName').textContent=user?.name||'Ashish';$('todayTxt').textContent=new Date().toDateString();
+const flt=$('taskFilter').value,sorted=S.tasks.map((t,i)=>[t,i]).filter(x=>flt==='All'||x[0].s===flt).sort((a,b)=>(a[0].d+(a[0].time||'')).localeCompare(b[0].d+(b[0].time||'')));
+$('taskList').innerHTML=sorted.map(([t,i])=>taskHTML(t,i,true)).join('')||'<small>No tasks — add one above.</small>';
+const done=S.tasks.filter(t=>t.s==='Done').length,bal=S.biz.reduce((a,b)=>a+(b.type==='Sale'?b.amt:-b.amt),0);
+$('kpiTask').textContent=S.tasks.length;$('kpiDone').textContent=done;$('kpiEvent').textContent=S.events.length;$('kpiBal').textContent='₹'+bal;
+const p=S.tasks.length?Math.round(done/S.tasks.length*100):0;$('progFill').style.width=p+'%';$('progTxt').textContent=p+'% complete';
+const od=S.tasks.filter(t=>t.s!=='Done'&&t.d<today()).length;$('overdue').textContent=od?`⚠️ ${od} overdue task${od>1?'s':''}`:'';
+$('routineList').innerHTML=S.routines.map((r,i)=>[r,i]).sort((a,b)=>a[0].time.localeCompare(b[0].time)).map(([r,i])=>`<div class="task ${r.done?'done':''}"><span><b>${esc(r.time)} — ${esc(r.t)}</b><br><small>${esc(r.type)}</small></span><span class="acts"><button class="sm" data-a="rtog" data-i="${i}">${r.done?'✅':'⏳'}</button><button class="sm" data-a="rdel" data-i="${i}">❌</button></span></div>`).join('')||'<small>No routine yet — try Auto-generate.</small>';
+$('rtFill').style.width=(S.routines.length?Math.round(S.routines.filter(r=>r.done).length/S.routines.length*100):0)+'%';
+$('bal').textContent=bal;const sl=S.biz.filter(b=>b.type==='Sale').reduce((a,b)=>a+b.amt,0),ex=S.biz.filter(b=>b.type==='Expense').reduce((a,b)=>a+b.amt,0);$('bizSum').textContent=`Sales ₹${sl} • Expenses ₹${ex} • Margin ${sl?Math.round(bal/sl*100):0}%`;
+$('bizList').innerHTML=S.biz.map((b,i)=>`<div class="task" style="border-left-color:${b.type==='Sale'?'#059669':'#ef4444'}"><span>${esc(b.type)}: <b>₹${b.amt}</b> — ${esc(b.note)}<br><small>${esc(b.d||'')}</small></span><button class="sm" data-a="bdel" data-i="${i}">❌</button></div>`).join('');
+$('jobList').innerHTML=S.jobs.map((j,i)=>{const u=safeUrl(j.link);return `<div class="task"><span><b>${esc(j.t)}</b> <span class="badge">${esc(j.type)}</span><br><small>${u?`<a href="${esc(u)}" target="_blank" rel="noopener">Open link</a> `:esc(j.link||'')}${j.date?' • Last date: '+esc(j.date):''}</small></span><button class="sm" data-a="jdel" data-i="${i}">❌</button></div>`}).join('')||'<small>No jobs saved.</small>';
+$('mockList').innerHTML=S.mocks.map((m,i)=>`<div class="task"><span>📝 ${esc(m.n)} — <b>${m.s}</b></span><button class="sm" data-a="mdel" data-i="${i}">❌</button></div>`).join('');
+$('mandiList').innerHTML=S.mandis.map((m,i)=>`<div class="task" style="border-left-color:#d97706"><span>🌾 ${esc(m.m)} • ${esc(m.crop)} — <b>₹${m.p}</b>/qtl</span><button class="sm" data-a="mandel" data-i="${i}">❌</button></div>`).join('');
+if(S.plan)$('timeOut').textContent=S.plan;
+renderCal();drawChat();drawAll()}
+/* ACTIONS (event delegation) */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const i=+b.dataset.i,a=b.dataset.a;
+if(a==='pick'){selDay=b.dataset.d;renderCal();return}
+if(a==='tcycle')S.tasks[i].s=NEXT[S.tasks[i].s];
+else if(a==='tedit'){const v=prompt('Edit task',S.tasks[i].t);if(v&&v.trim())S.tasks[i].t=v.trim();const d=prompt('Date (YYYY-MM-DD)',S.tasks[i].d);if(d&&/^\d{4}-\d{2}-\d{2}$/.test(d))S.tasks[i].d=d}
+else if(a==='tdel')S.tasks.splice(i,1);else if(a==='edel')S.events.splice(i,1);else if(a==='rtog')S.routines[i].done=!S.routines[i].done;else if(a==='rdel')S.routines.splice(i,1);
+else if(a==='bdel')S.biz.splice(i,1);else if(a==='jdel')S.jobs.splice(i,1);else if(a==='mdel')S.mocks.splice(i,1);else if(a==='mandel')S.mandis.splice(i,1);
+save()});
+/* REMINDERS */
+function checkReminders(){const now=new Date(),d=ymd(now),hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');S.notified=S.notified||{};
+[...S.tasks.filter(t=>t.s!=='Done').map(t=>['Task',t.t,t.d,t.time]),...S.events.map(e=>['Event',e.t,e.d,e.time])].forEach(([k,t,dd,tm])=>{const key=k+t+dd+tm;if(dd===d&&tm&&tm<=hm&&!S.notified[key]&&hm.slice(0,2)===tm.slice(0,2)){S.notified[key]=1;persist();toast('⏰ '+k+': '+t);if('Notification' in window&&Notification.permission==='granted')new Notification('ZyvaOne '+k,{body:t+' at '+tm})}})}
+setInterval(checkReminders,30000);
+/* INIT */
+$('uName').value=user?.name||'';$('uEmail').value=user?.email||'';if(user?.role)$('uRole').value=user.role;
+if(cfg){$('aiProvider').value=cfg.p;$('aiModel').value=cfg.m||DEFMODEL[cfg.p];$('aiStatus').textContent='✅ Key saved ('+cfg.p+')'}else $('aiModel').value=DEFMODEL.gemini;
+const upd=()=>{$('netPill').textContent=navigator.onLine?'✅ Online — AI ready':'📴 Offline — local features work'};addEventListener('online',upd);addEventListener('offline',upd);upd();
+applyTheme();showPage(PAGES.some(p=>p[0]===location.hash.slice(1))?location.hash.slice(1):'home');
 </script></body></html>
