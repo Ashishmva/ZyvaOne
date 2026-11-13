@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ZyvaOne AI v4</title>
+<title>ZyvaOne AI v5</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f1f4f9;--tx:#0f172a;--cd:#fff;--bd:#e2e8f0;--in:#f8fafc;--mu:#64748b;--sb:#0f172a}
@@ -53,11 +53,10 @@ canvas{width:100%;display:block;margin:10px 0}.out{white-space:pre-wrap;backgrou
 <div class="grid"><select id="taskCat"><option>Business</option><option>Coding</option><option>Farming</option><option>Study</option><option>Personal</option></select><select id="taskPri"><option>🔴 High</option><option>🟡 Medium</option><option>🟢 Low</option></select></div>
 <div class="grid"><input id="taskDate" type="date"><input id="taskTime" type="time"></div>
 <button class="btn" id="addTaskBtn">+ Add Task</button>
-<div style="margin:12px 0"><select id="taskFilter" style="width:auto"><option>All</option><option>Upcoming</option><option>Doing</option><option>Done</option></select></div><div id="taskList"></div></div>
+<div style="margin:12px 0"><select id="taskFilter" style="width:auto"><option>All</option><option>Upcoming</option><option>Doing</option><option>Done</option><option>Pinned 📌</option></select></div><div id="taskList"></div></div>
 <div class="card"><h3>📄 Project Report / PPT / Paper</h3><input id="projName" placeholder="Project name"><textarea id="projDesc" rows="3" placeholder="What did you do? Key results, tools, outcome"></textarea>
 <button class="btn2" data-gen="report">Report</button> <button class="ghost" data-gen="ppt">PPT Outline</button> <button class="ghost" data-gen="paper">Research Paper</button> <button class="ghost" id="copyRep">Copy</button> <button class="ghost" id="aiRep">✨ Improve with AI</button><div class="out" id="reportOut">Your output appears here.</div></div>
 </section>
-
 <section id="powerbi" class="hidden"><div class="card"><h2>📊 Analytics Dashboard</h2>
 <select id="biFilter" style="width:auto"><option>All</option><option>Business</option><option>Coding</option><option>Farming</option><option>Study</option><option>Personal</option></select>
 <div class="grid3"><div class="kpi k1"><b id="biSale">₹0</b><span>Total Sales</span></div><div class="kpi k2"><b id="biExp">₹0</b><span>Expenses</span></div><div class="kpi k4"><b id="biScore">0</b><span>Avg Mock Score</span></div></div>
@@ -68,11 +67,14 @@ canvas{width:100%;display:block;margin:10px 0}.out{white-space:pre-wrap;backgrou
 <div style="display:flex;justify-content:space-between;align-items:center"><button class="ghost" id="prevM">◀</button><b id="calTitle"></b><button class="ghost" id="nextM">▶</button></div>
 <div class="cal" style="margin:10px 0"><b>Sun</b><b>Mon</b><b>Tue</b><b>Wed</b><b>Thu</b><b>Fri</b><b>Sat</b></div><div class="cal" id="calGrid"></div>
 <h3 id="dayTitle">Selected day</h3><div id="dayList"></div>
-<h3>🎉 Add Event</h3><input id="evTitle" placeholder="Event name"><div class="grid"><input id="evDate" type="date"><input id="evTime" type="time"></div><textarea id="evNote" rows="2" placeholder="Venue, guests, checklist"></textarea>
-<button class="btn" id="addEvBtn">+ Add Event</button></div></section>
+<h3>🎉 Add Event</h3><input id="evTitle" placeholder="Event name e.g. B.Tech Exam / MCA Viva / Birthday">
+<div class="grid"><input id="evDate" type="date"><input id="evTime" type="time"></div><textarea id="evNote" rows="2" placeholder="Venue, guests, checklist"></textarea>
+<button class="btn" id="addEvBtn">+ Add Event</button>
+<p><small>Tip: Click any date on calendar to select it, then add event. Tasks with 📅 also appear here.</small></p>
+</div></section>
 
 <section id="routine" class="hidden"><div class="card"><h2>⏰ Routine Builder</h2>
-<select id="routineType"><option>Student Routine</option><option>Business Routine</option><option>Developer Routine</option><option>Farmer Routine</option><option>Morning Routine</option></select>
+<select id="routineType"><option>Student Routine</option><option>Business Routine</option><option>Developer Routine</option><option>Farmer Routine</option><option>Morning Routine</option><option>B.Tech Routine</option><option>MCA Routine</option></select>
 <div class="grid"><input id="routineTime" type="time" value="06:00"><input id="routineTask" placeholder="e.g. Wake + Exercise"></div>
 <button class="btn" id="addRtBtn">+ Add</button> <button class="ghost" id="autoRt">✨ Auto-generate for selected type</button> <button class="ghost" id="resetRt">Reset today's ticks</button>
 <div class="bar" style="margin-top:12px"><div class="fill" id="rtFill" style="width:0"></div></div><div id="routineList"></div></div></section>
@@ -82,14 +84,26 @@ canvas{width:100%;display:block;margin:10px 0}.out{white-space:pre-wrap;backgrou
 <h3>Balance: ₹<span id="bal">0</span></h3><small id="bizSum"></small><div id="bizList"></div></div>
 <div><h3>🧾 Invoice</h3><input id="invCust" placeholder="Customer name"><input id="invItem" placeholder="Item / service"><input id="invAmt" type="number" min="0" placeholder="Amount ₹">
 <label><input type="checkbox" id="invSale" style="width:auto" checked> Also record as Sale</label><br><button class="btn2" id="genInv">Generate Invoice</button> <button class="ghost" id="printInv">Print</button><div id="invOut" class="out"></div></div></div></div></section>
-
 <section id="dev" class="hidden"><div class="card"><h2>💻 Developer</h2><textarea id="codeIn" rows="6" placeholder="Paste code / error / idea"></textarea>
 <select id="codeMode"><option>Explain Code</option><option>Fix Bug</option><option>Make Project Plan</option><option>Interview Prep</option></select><button class="btn" id="codeBtn">Get Help</button><div class="out" id="codeOut">Add a Gemini/OpenAI key in Settings for real code help. Without a key you get a checklist.</div></div></section>
 
 <section id="farm" class="hidden"><div class="card"><h2>🌾 Farmer</h2><div class="grid"><input id="mandi" placeholder="Mandi e.g. Patna"><input id="crop" placeholder="Crop e.g. Paddy"></div><input id="price" type="number" min="0" placeholder="Price ₹/Quintal"><button class="btn" id="addMandi">Save Price</button><div id="mandiList"></div><canvas id="c4" height="140"></canvas>
 <h3>Ask about farming</h3><textarea id="farmQ" rows="2" placeholder="Ask in Hindi or English..."></textarea><button class="btn2" id="farmBtn">Ask ZyvaBot</button><div id="farmAns"></div></div></section>
 
-<section id="study" class="hidden"><div class="card"><h2>📚 Student</h2><div class="grid"><select id="exam"><option>JEE</option><option>NEET</option><option>UPSC</option><option>SSC</option><option>B.Tech</option><option>Class 10 / 12</option></select><input id="examDate" type="date"></div>
+<section id="study" class="hidden"><div class="card"><h2>📚 Student</h2>
+
+<h3>➕ Add Your Own Course / Exam</h3>
+<p><small>Add B.Tech, MCA, BCA, Class 12, UPSC, NEET or ANYTHING yourself. It will appear in list + Calendar + Exam dropdown.</small></p>
+<div class="grid"><input id="customCourseName" placeholder="e.g. B.Tech / MCA / BCA / Class 12 / UPSC / NEET / Your Own Exam">
+<select id="customCourseType"><option>Course</option><option>Exam</option><option>Subject</option><option>Other</option></select></div>
+<div class="grid"><input id="customCourseDate" type="date"><input id="customCourseNote" placeholder="Note e.g. Sem 3, CS Branch"></div>
+<button class="btn2" id="addCustomCourse">+ Add Course / Exam</button>
+<div id="customCourseList" style="margin-top:12px"></div>
+
+<hr>
+
+<h3>📋 Quick Exam Plan</h3>
+<div class="grid"><select id="exam"><option>JEE</option><option>NEET</option><option>UPSC</option><option>SSC</option><option>B.Tech</option><option>MCA</option><option>BCA</option><option>Class 10 / 12</option></select><input id="examDate" type="date"></div>
 <button class="btn" id="mkPlan">Make Exam Plan</button> <button class="ghost" id="planTasks">Add plan to Routine</button><div class="out" id="timeOut">Pick an exam and date.</div>
 <h3>📝 Mock tests</h3><div class="grid"><input id="mockName" placeholder="Mock test name"><input id="mockScore" type="number" placeholder="Score"></div><button class="btn2" id="addMock">Save Score</button><div id="mockList"></div></div></section>
 
@@ -115,14 +129,16 @@ const rich=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>')
 const safeUrl=u=>/^https?:\/\//i.test(u)?u:'';
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)}
 const td=today();
-const DEF={tasks:[{t:'Complete survey report',c:'Business',p:'🔴 High',d:td,time:'10:00',s:'Doing'},{t:'Revise Biology Ch-3',c:'Study',p:'🟡 Medium',d:td,time:'17:00',s:'Upcoming'},{t:'Check paddy mandi price',c:'Farming',p:'🟢 Low',d:td,time:'08:00',s:'Done'}],
+const DEF={tasks:[{t:'Complete survey report',c:'Business',p:'🔴 High',d:td,time:'10:00',s:'Doing',pinned:false},{t:'Revise Biology Ch-3',c:'Study',p:'🟡 Medium',d:td,time:'17:00',s:'Upcoming',pinned:false},{t:'Check paddy mandi price',c:'Farming',p:'🟢 Low',d:td,time:'08:00',s:'Done',pinned:false}],
 events:[{t:'Village Survey Camp',d:td,time:'09:00',n:'20 students'}],routines:[{type:'Student Routine',time:'06:00',t:'Wake + Exercise',done:false},{type:'Student Routine',time:'07:00',t:'Study - hard subject',done:false}],
-biz:[{amt:5000,type:'Sale',note:'Kirana sale',d:td},{amt:1200,type:'Expense',note:'Stock purchase',d:td}],jobs:[{t:'Bihar Police Constable',type:'Govt Job',link:'',date:''}],mocks:[{n:'NEET Mock 1',s:420}],mandis:[{m:'Patna',crop:'Paddy',p:2200}],chat:[],invoices:0,plan:null,notified:{}};
-let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem('zyv4')||localStorage.getItem('zyv3')||'null')||{})}catch(e){S=JSON.parse(JSON.stringify(DEF))}
+biz:[{amt:5000,type:'Sale',note:'Kirana sale',d:td},{amt:1200,type:'Expense',note:'Stock purchase',d:td}],jobs:[{t:'Bihar Police Constable',type:'Govt Job',link:'',date:''}],mocks:[{n:'NEET Mock 1',s:420}],mandis:[{m:'Patna',crop:'Paddy',p:2200}],chat:[],invoices:0,plan:null,notified:{},
+customCourses:[{n:'B.Tech - CS',type:'Course',date:'',note:'Sem 3'},{n:'MCA',type:'Course',date:'',note:'Sem 1'}]};
+let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem('zyv5')||localStorage.getItem('zyv4')||'null')||{})}catch(e){S=JSON.parse(JSON.stringify(DEF))}
+S.customCourses=S.customCourses||[]; S.tasks.forEach(t=>{if(t.pinned===undefined)t.pinned=false});
 let user=null,cfg=null,theme=localStorage.getItem('zy_theme')||'';
 try{user=JSON.parse(localStorage.getItem('zy_user3')||'null');cfg=JSON.parse(localStorage.getItem('zy_ai')||'null')}catch(e){}
 let calDate=new Date();calDate.setDate(1);let selDay=today();let lastInv='';
-function persist(){try{localStorage.setItem('zyv4',JSON.stringify(S))}catch(e){toast('Storage full — export a backup')}}
+function persist(){try{localStorage.setItem('zyv5',JSON.stringify(S))}catch(e){toast('Storage full — export a backup')}}
 function save(){persist();render()}
 /* NAV */
 const PAGES=[['home','🏠 Dashboard'],['powerbi','📊 Analytics'],['calendar','📅 Calendar'],['routine','⏰ Routine'],['biz','💼 Business'],['dev','💻 Developer'],['farm','🌾 Farmer'],['study','📚 Student'],['jobs','🔎 Jobs & News'],['chat','🤖 ZyvaBot AI'],['settings','⚙️ Settings']];
@@ -133,14 +149,14 @@ document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>showPage(b.datase
 /* THEME */
 function applyTheme(){document.body.classList.toggle('dark',theme==='dark');$('themeBtn').textContent=theme==='dark'?'☀️':'🌙'}
 $('themeBtn').onclick=()=>{theme=theme==='dark'?'':'dark';localStorage.setItem('zy_theme',theme);applyTheme();drawAll()};
-/* TASKS */
+/* TASKS - WITH PIN + CALENDAR */
 const NEXT={Upcoming:'Doing',Doing:'Done',Done:'Upcoming'};
-$('addTaskBtn').onclick=()=>{const t=$('taskTitle').value.trim();if(!t)return toast('Enter a task title');S.tasks.push({t,c:$('taskCat').value,p:$('taskPri').value,d:$('taskDate').value||today(),time:$('taskTime').value,s:'Upcoming'});$('taskTitle').value='';save();toast('Task added')};
+$('addTaskBtn').onclick=()=>{const t=$('taskTitle').value.trim();if(!t)return toast('Enter a task title');S.tasks.push({t,c:$('taskCat').value,p:$('taskPri').value,d:$('taskDate').value||today(),time:$('taskTime').value,s:'Upcoming',pinned:false});$('taskTitle').value='';save();toast('Task added')};
 $('taskTitle').onkeydown=e=>{if(e.key==='Enter')$('addTaskBtn').click()};
 $('taskFilter').onchange=render;
-function taskHTML(t,i,showDate){return `<div class="task ${t.s==='Done'?'done':''}"><span><b>${esc(t.t)}</b><br><small>${esc(t.c)} • ${esc(t.p)} • ${showDate?'📅 '+esc(t.d)+' ':''}⏰ ${esc(t.time||'--')} • ${esc(t.s)}</small></span><span class="acts"><button class="sm" data-a="tcycle" data-i="${i}" title="Change status">⟳</button><button class="sm" data-a="tedit" data-i="${i}" title="Edit">✏️</button><button class="sm" data-a="tdel" data-i="${i}" title="Delete">❌</button></span></div>`}
-/* EVENTS */
-$('addEvBtn').onclick=()=>{const t=$('evTitle').value.trim();if(!t)return toast('Enter event name');S.events.push({t,d:$('evDate').value||selDay,time:$('evTime').value,n:$('evNote').value});$('evTitle').value='';$('evNote').value='';save();toast('Event added')};
+function taskHTML(t,i,showDate){return `<div class="task ${t.s==='Done'?'done':''}" style="${t.pinned?'border-left-color:#f59e0b;border-left-width:6px':''}"><span>${t.pinned?'📌 ':''}<b>${esc(t.t)}</b><br><small>${esc(t.c)} • ${esc(t.p)} • ${showDate?'📅 '+esc(t.d)+' ':''}⏰ ${esc(t.time||'--')} • ${esc(t.s)} ${t.pinned?'• PINNED':''}</small></span><span class="acts"><button class="sm" data-a="tpin" data-i="${i}" title="Pin / Unpin">📌</button><button class="sm" data-a="tcal" data-i="${i}" title="Add to Calendar">📅</button><button class="sm" data-a="tcycle" data-i="${i}" title="Change status">⟳</button><button class="sm" data-a="tedit" data-i="${i}" title="Edit">✏️</button><button class="sm" data-a="tdel" data-i="${i}" title="Delete">❌</button></span></div>`}
+/* EVENTS / CALENDAR */
+$('addEvBtn').onclick=()=>{const t=$('evTitle').value.trim();if(!t)return toast('Enter event name');S.events.push({t,d:$('evDate').value||selDay,time:$('evTime').value,n:$('evNote').value});$('evTitle').value='';$('evNote').value='';save();toast('Event added to Calendar')};
 function renderCal(){const y=calDate.getFullYear(),m=calDate.getMonth();$('calTitle').textContent=calDate.toLocaleString('en',{month:'long',year:'numeric'});
 const first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();let h='';for(let i=0;i<first;i++)h+='<div></div>';
 for(let d=1;d<=n;d++){const ds=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');const has=S.tasks.some(t=>t.d===ds)||S.events.some(e=>e.d===ds);h+=`<div class="day ${ds===today()?'today':''} ${ds===selDay?'sel':''} ${has?'has':''}" data-a="pick" data-d="${ds}">${d}${has?'<br>📌':''}</div>`}
@@ -154,7 +170,9 @@ const AUTO={'Student Routine':[['06:00','Wake + exercise'],['07:00','Deep study'
 'Business Routine':[['07:00','Plan the day'],['09:00','Open shop / calls'],['13:00','Follow up customers'],['18:00','Update accounts'],['21:00','Review sales']],
 'Developer Routine':[['06:30','Exercise'],['08:00','Deep work'],['13:00','Learn / DSA'],['16:00','Project work'],['21:00','Review + commit']],
 'Farmer Routine':[['05:00','Field check'],['07:00','Irrigation / spraying'],['11:00','Mandi price check'],['16:00','Field work'],['19:00','Plan tomorrow']],
-'Morning Routine':[['05:30','Wake'],['06:00','Exercise'],['07:00','Bath + breakfast'],['08:00','Plan top 3 tasks']]};
+'Morning Routine':[['05:30','Wake'],['06:00','Exercise'],['07:00','Bath + breakfast'],['08:00','Plan top 3 tasks']],
+'B.Tech Routine':[['06:00','Wake + Exercise'],['08:00','College / Classes'],['13:00','Lab / Practical'],['16:00','DSA / Coding'],['19:00','Revision + Notes']],
+'MCA Routine':[['06:00','Wake + Exercise'],['08:00','Classes'],['13:00','Project Work'],['16:00','Coding Practice'],['20:00','Revision']]};
 $('addRtBtn').onclick=()=>{if(!$('routineTask').value.trim())return toast('Enter a routine task');S.routines.push({type:$('routineType').value,time:$('routineTime').value,t:$('routineTask').value.trim(),done:false});$('routineTask').value='';save()};
 $('autoRt').onclick=()=>{const ty=$('routineType').value;(AUTO[ty]||[]).forEach(x=>{if(!S.routines.some(r=>r.type===ty&&r.time===x[0]&&r.t===x[1]))S.routines.push({type:ty,time:x[0],t:x[1],done:false})});save();toast('Routine generated')};
 $('resetRt').onclick=()=>{S.routines.forEach(r=>r.done=false);save()};
@@ -166,19 +184,26 @@ if($('invSale').checked)S.biz.push({amt:a,type:'Sale',note:'Invoice '+c,d:today(
 $('printInv').onclick=()=>{if(!lastInv)return toast('Generate an invoice first');const w=window.open('','_blank');if(!w)return toast('Allow pop-ups to print');w.document.write('<pre style="font:16px monospace;padding:30px">'+esc(lastInv)+'</pre>');w.document.close();w.print()};
 /* DEV */
 const DEVOFF={'Explain Code':'1) Read top to bottom and name each function in one line.\n2) Trace inputs → outputs with a small example.\n3) Note loops/conditions and edge cases.\n(Add an AI key for line-by-line explanation.)','Fix Bug':'1) Read the exact error message and line number.\n2) Check spelling, brackets, indentation, types.\n3) Print variables before the failing line.\n4) Reduce to the smallest failing example.','Make Project Plan':'1) Define the problem + users.\n2) List 5 must-have features.\n3) Pick stack, sketch data model.\n4) Build MVP in 1 week, test, then iterate.','Interview Prep':'1) Revise arrays, strings, hash maps, recursion.\n2) Solve 2 problems/day, explain aloud.\n3) Prepare 3 project stories.\n4) Mock interview weekly.'};
-$('codeBtn').onclick=async()=>{const v=$('codeIn').value.trim();if(!v)return toast('Paste code or an idea');$('codeOut').textContent='⏳ Thinking...';const r=await realAI(`${$('codeMode').value} for this:\n\n${v}`);$('codeOut').innerHTML=r?rich(r):esc(DEVOFF[$('codeMode').value])};
 /* FARM */
 $('addMandi').onclick=()=>{if(!$('mandi').value.trim()||!(+$('price').value>0))return toast('Enter mandi and price');S.mandis.push({m:$('mandi').value.trim(),crop:$('crop').value.trim()||'—',p:+$('price').value});$('mandi').value='';$('price').value='';save()};
-$('farmBtn').onclick=async()=>{const q=$('farmQ').value.trim();if(!q)return;$('farmAns').innerHTML='<div class="msg ai">⏳ Thinking...</div>';const a=await ask('Farming question for an Indian farmer: '+q,q);$('farmAns').innerHTML=`<div class="msg ai">${rich(a)}</div>`};
-/* STUDY */
-const SUBJ={JEE:'Physics, Chemistry, Maths',NEET:'Physics, Chemistry, Biology',UPSC:'Polity, History, Geography, Economy, Current Affairs',SSC:'Quant, Reasoning, English, GK','B.Tech':'Core subjects, Maths, Labs','Class 10 / 12':'All board subjects + practicals'};
+/* STUDY - CUSTOM COURSE */
+$('addCustomCourse').onclick=()=>{
+  const n=$('customCourseName').value.trim();
+  if(!n) return toast('Enter course / exam name');
+  const obj={n,type:$('customCourseType').value,date:$('customCourseDate').value,note:$('customCourseNote').value};
+  S.customCourses.push(obj);
+  const ex=$('exam'); let exists=false; [...ex.options].forEach(o=>{if(o.text===n)exists=true}); if(!exists){const opt=document.createElement('option'); opt.text=n; ex.appendChild(opt);}
+  if(obj.date) S.events.push({t:'📚 '+n+' - '+obj.type,d:obj.date,time:'09:00',n:obj.note});
+  $('customCourseName').value=''; $('customCourseNote').value=''; $('customCourseDate').value='';
+  save(); toast('Added: '+n+' ✅');
+};
+const SUBJ={JEE:'Physics, Chemistry, Maths',NEET:'Physics, Chemistry, Biology',UPSC:'Polity, History, Geography, Economy, Current Affairs',SSC:'Quant, Reasoning, English, GK','B.Tech':'Core subjects, Maths, Labs','MCA':'DSA, DBMS, OS, CN, Web Dev','BCA':'C, Java, DBMS, Web','Class 10 / 12':'All board subjects + practicals'};
 $('mkPlan').onclick=()=>{const ex=$('exam').value,dt=$('examDate').value;let days='';if(dt){const n=Math.ceil((new Date(dt+'T00:00')-new Date(today()+'T00:00'))/864e5);days=n>=0?`⏳ ${n} days left\n`+(n>60?'Phase: build concepts (70% learn / 30% practice)':n>20?'Phase: practice + weak topics (50/50)':'Phase: revision + full mocks (20/80)'):'⚠️ Exam date has passed — pick a new date.'}
-S.plan=`${ex} PLAN\n${days}\nSubjects: ${SUBJ[ex]}\n\n06:00 Revise yesterday\n08:00 New topic\n11:00 Mock / 30 MCQs\n14:00 Weak topics\n17:00 Notes\n20:00 Doubts\nSunday: full mock + analysis\nTip: 25 min focus + 5 min break`;$('timeOut').textContent=S.plan;persist()};
+S.plan=`${ex} PLAN\n${days}\nSubjects: ${SUBJ[ex]||'Core subjects + Practice'}\n\n06:00 Revise yesterday\n08:00 New topic\n11:00 Mock / 30 MCQs\n14:00 Weak topics\n17:00 Notes\n20:00 Doubts\nSunday: full mock + analysis\nTip: 25 min focus + 5 min break`;$('timeOut').textContent=S.plan;persist()};
 $('planTasks').onclick=()=>{if(!S.plan)return toast('Make a plan first');AUTO['Student Routine'].forEach(x=>{if(!S.routines.some(r=>r.type==='Student Routine'&&r.time===x[0]&&r.t===x[1]))S.routines.push({type:'Student Routine',time:x[0],t:x[1],done:false})});save();toast('Added to Routine')};
 $('addMock').onclick=()=>{if(!$('mockName').value.trim()||$('mockScore').value==='')return toast('Enter name and score');S.mocks.push({n:$('mockName').value.trim(),s:+$('mockScore').value});$('mockName').value='';$('mockScore').value='';save()};
 /* JOBS */
 $('addJob').onclick=()=>{if(!$('jobTitle').value.trim())return toast('Enter job title');const l=$('jobLink').value.trim();if(l&&!safeUrl(l))return toast('Link must start with http(s)://');S.jobs.push({t:$('jobTitle').value.trim(),type:$('jobType').value,link:l,date:$('jobDate').value});$('jobTitle').value='';$('jobLink').value='';save()};
-$('jobAI').onclick=async()=>{const o=$('jobOut');o.classList.remove('hidden');o.textContent='⏳ Thinking...';const a=await ask('Give practical tips for finding latest government and private jobs in India, with official portals to check (ncs.gov.in, employmentnews, sarkariresult-type official sites). Be brief.','jobs');o.innerHTML=rich(a)};
 /* AI */
 const DEFMODEL={gemini:'gemini-2.5-flash',openai:'gpt-4o-mini'};
 async function realAI(q,hist){if(!cfg||!cfg.k)return null;try{
@@ -192,7 +217,7 @@ catch(e){toast('AI error: '+e.message+' — using offline AI');return null}}
 const RULES=[[/business|shop|dukan|profit/,'**Business:** Low-investment ideas — tiffin service, kirana + home delivery, mobile repair, tuition. Track sales daily, post one WhatsApp offer, save 20% of profit.'],
 [/python|code|bug|error|java|html/,'**Coding:** Break the problem into 3 parts, write pseudo-code first, test with 2 examples. Check spelling, brackets and indentation. Add an AI key in Settings for full code help.'],
 [/paddy|dhan|wheat|fertili|farm|kisan|crop|khad/,'**Farming:** Paddy — urea in 2–3 splits, keep 2–3 inch water. Wheat — sow Nov–Dec, first irrigation ~21 days. Check mandi rates and PM-KISAN status.'],
-[/study|neet|jee|upsc|ssc|exam|timetable/,'**Study:** 6 AM revise • 8 AM new topic • 11 AM 30 MCQs • 2 PM weak topics • 5 PM notes • 8 PM doubts. 25 min focus + 5 min break. Full mock every Sunday.'],
+[/study|neet|jee|upsc|ssc|exam|timetable|b.tech|mca|bca/,'**Study:** 6 AM revise • 8 AM new topic • 11 AM 30 MCQs • 2 PM weak topics • 5 PM notes • 8 PM doubts. 25 min focus + 5 min break. Full mock every Sunday.'],
 [/job|vacancy|sarkari|naukri/,'**Jobs:** Check official portals (ncs.gov.in, state PSC/police sites), set reminders for last dates, keep documents ready.']];
 const offline=q=>{q=q.toLowerCase();const r=RULES.find(x=>x[0].test(q));return r?r[1]:'Tell me a Business / Coding / Farming / Study topic and I will give a step-by-step plan. (Add an AI key in Settings for open questions.)'};
 async function ask(q,off,hist){return await realAI(q,hist)||offline(off||q)}
@@ -200,6 +225,9 @@ async function sendChat(txt){const v=(txt??$('chatIn').value).trim();if(!v)retur
 function drawChat(pending){$('chatBox').innerHTML=(S.chat.length?'':'<div class="msg ai">Hi! I am ZyvaBot. Ask about business, coding, farming or study.</div>')+S.chat.map(m=>`<div class="msg ${m.r}">${rich(m.t)}</div>`).join('')+(pending?`<div class="msg ai">${pending}</div>`:'');$('chatBox').scrollTop=1e9}
 $('sendBtn').onclick=()=>sendChat();$('chatIn').onkeydown=e=>{if(e.key==='Enter')sendChat()};
 document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>sendChat(b.dataset.q));$('clrChat').onclick=()=>{S.chat=[];persist();drawChat()};
+$('codeBtn').onclick=async()=>{const v=$('codeIn').value.trim();if(!v)return toast('Paste code or an idea');$('codeOut').textContent='⏳ Thinking...';const r=await realAI(`${$('codeMode').value} for this:\n\n${v}`);$('codeOut').innerHTML=r?rich(r):esc(DEVOFF[$('codeMode').value])};
+$('farmBtn').onclick=async()=>{const q=$('farmQ').value.trim();if(!q)return;$('farmAns').innerHTML='<div class="msg ai">⏳ Thinking...</div>';const a=await ask('Farming question for an Indian farmer: '+q,q);$('farmAns').innerHTML=`<div class="msg ai">${rich(a)}</div>`};
+$('jobAI').onclick=async()=>{const o=$('jobOut');o.classList.remove('hidden');o.textContent='⏳ Thinking...';const a=await ask('Give practical tips for finding latest government and private jobs in India, with official portals to check (ncs.gov.in, employmentnews, sarkariresult-type official sites). Be brief.','jobs');o.innerHTML=rich(a)};
 /* REPORTS */
 const GEN={report:(n,d)=>`PROJECT REPORT — ${n}\n\n1. Objective\n${d}\n\n2. Approach\nRequirement → Design → Development → Testing → Delivery\n\n3. Outcome\n(Add numbers: people reached, time saved, results.)\n\n4. Next steps\n- \n- `,
 ppt:(n)=>`PPT OUTLINE — ${n}\n1 Title\n2 Problem\n3 Solution\n4 Key features\n5 Tools / method\n6 Demo / evidence\n7 Results\n8 Next steps\n9 Thank you`,
@@ -215,13 +243,13 @@ $('rmAI').onclick=()=>{cfg=null;localStorage.removeItem('zy_ai');$('aiKey').valu
 $('notifBtn').onclick=()=>{if(!('Notification' in window))return toast('Not supported here');Notification.requestPermission().then(p=>toast(p==='granted'?'Reminders on':'Permission denied'))};
 function dl(name,txt,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 $('expData').onclick=()=>dl('zyvaone-backup.json',JSON.stringify(S),'application/json');
-$('impData').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.tasks))throw 0;S=Object.assign({},DEF,d);save();toast('Backup restored')}catch(x){toast('Invalid backup file')}};r.readAsText(f);e.target.value=''};
-$('clrAll').onclick=()=>{if(confirm('Delete ALL data?')){['zyv3','zyv4','zy_user3'].forEach(k=>localStorage.removeItem(k));location.reload()}};
+$('impData').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.tasks))throw 0;S=Object.assign({},DEF,d);S.customCourses=S.customCourses||[];save();toast('Backup restored')}catch(x){toast('Invalid backup file')}};r.readAsText(f);e.target.value=''};
+$('clrAll').onclick=()=>{if(confirm('Delete ALL data?')){['zyv3','zyv4','zyv5','zy_user3'].forEach(k=>localStorage.removeItem(k));location.reload()}};
 const csvc=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
 $('expCsv').onclick=()=>dl('zyvaone-data.csv','Type,Title/Note,Category/Kind,Date,Status/Amount\n'+S.tasks.map(t=>['Task',t.t,t.c,t.d,t.s].map(csvc).join(',')).concat(S.biz.map(b=>['Business',b.note,b.type,b.d||'',b.amt].map(csvc).join(','))).join('\n'),'text/csv');
 /* SEARCH */
 function doSearch(){const q=$('q').value.trim().toLowerCase();if(!q)return;showPage('home');const hit=(...a)=>a.join(' ').toLowerCase().includes(q);
-const r=[...S.tasks.filter(t=>hit(t.t,t.c,t.s)).map(t=>'✅ '+t.t+' ('+t.d+')'),...S.events.filter(e=>hit(e.t,e.n)).map(e=>'🎉 '+e.t+' ('+e.d+')'),...S.jobs.filter(j=>hit(j.t,j.type)).map(j=>'💼 '+j.t),...S.biz.filter(b=>hit(b.note,b.type)).map(b=>'₹ '+b.type+' '+b.amt+' '+b.note),...S.mandis.filter(m=>hit(m.m,m.crop)).map(m=>'🌾 '+m.m+' '+m.crop),...S.routines.filter(x=>hit(x.t,x.type)).map(x=>'⏰ '+x.time+' '+x.t)];
+const r=[...S.tasks.filter(t=>hit(t.t,t.c,t.s)).map(t=>'✅ '+t.t+' ('+t.d+')'),...S.events.filter(e=>hit(e.t,e.n)).map(e=>'🎉 '+e.t+' ('+e.d+')'),...S.jobs.filter(j=>hit(j.t,j.type)).map(j=>'💼 '+j.t),...S.biz.filter(b=>hit(b.note,b.type)).map(b=>'₹ '+b.type+' '+b.amt+' '+b.note),...S.mandis.filter(m=>hit(m.m,m.crop)).map(m=>'🌾 '+m.m+' '+m.crop),...S.routines.filter(x=>hit(x.t,x.type)).map(x=>'⏰ '+x.time+' '+x.t),...S.customCourses.filter(c=>hit(c.n,c.type,c.note)).map(c=>'📚 '+c.n+' ('+c.type+')')];
 $('searchBox').classList.remove('hidden');$('searchOut').innerHTML=r.length?r.map(x=>`<div class="task">${esc(x)}</div>`).join(''):'<small>No matches.</small>'}
 $('q').onkeydown=e=>{if(e.key==='Enter')doSearch()};$('clrSearch').onclick=()=>{$('q').value='';$('searchBox').classList.add('hidden')};
 /* CHARTS */
@@ -242,8 +270,12 @@ $('biFilter').onchange=drawAll;window.addEventListener('resize',drawAll);
 /* RENDER */
 function render(){
 $('welcomeName').textContent=user?.name||'Ashish';$('todayTxt').textContent=new Date().toDateString();
-const flt=$('taskFilter').value,sorted=S.tasks.map((t,i)=>[t,i]).filter(x=>flt==='All'||x[0].s===flt).sort((a,b)=>(a[0].d+(a[0].time||'')).localeCompare(b[0].d+(b[0].time||'')));
-$('taskList').innerHTML=sorted.map(([t,i])=>taskHTML(t,i,true)).join('')||'<small>No tasks — add one above.</small>';
+const flt=$('taskFilter').value;
+let list=S.tasks.map((t,i)=>[t,i]);
+if(flt==='Pinned 📌') list=list.filter(x=>x[0].pinned);
+else if(flt!=='All') list=list.filter(x=>x[0].s===flt);
+list.sort((a,b)=>{if(a[0].pinned!==b[0].pinned) return a[0].pinned?-1:1; return (a[0].d+(a[0].time||'')).localeCompare(b[0].d+(b[0].time||''))});
+$('taskList').innerHTML=list.map(([t,i])=>taskHTML(t,i,true)).join('')||'<small>No tasks — add one above.</small>';
 const done=S.tasks.filter(t=>t.s==='Done').length,bal=S.biz.reduce((a,b)=>a+(b.type==='Sale'?b.amt:-b.amt),0);
 $('kpiTask').textContent=S.tasks.length;$('kpiDone').textContent=done;$('kpiEvent').textContent=S.events.length;$('kpiBal').textContent='₹'+bal;
 const p=S.tasks.length?Math.round(done/S.tasks.length*100):0;$('progFill').style.width=p+'%';$('progTxt').textContent=p+'% complete';
@@ -255,15 +287,20 @@ $('bizList').innerHTML=S.biz.map((b,i)=>`<div class="task" style="border-left-co
 $('jobList').innerHTML=S.jobs.map((j,i)=>{const u=safeUrl(j.link);return `<div class="task"><span><b>${esc(j.t)}</b> <span class="badge">${esc(j.type)}</span><br><small>${u?`<a href="${esc(u)}" target="_blank" rel="noopener">Open link</a> `:esc(j.link||'')}${j.date?' • Last date: '+esc(j.date):''}</small></span><button class="sm" data-a="jdel" data-i="${i}">❌</button></div>`}).join('')||'<small>No jobs saved.</small>';
 $('mockList').innerHTML=S.mocks.map((m,i)=>`<div class="task"><span>📝 ${esc(m.n)} — <b>${m.s}</b></span><button class="sm" data-a="mdel" data-i="${i}">❌</button></div>`).join('');
 $('mandiList').innerHTML=S.mandis.map((m,i)=>`<div class="task" style="border-left-color:#d97706"><span>🌾 ${esc(m.m)} • ${esc(m.crop)} — <b>₹${m.p}</b>/qtl</span><button class="sm" data-a="mandel" data-i="${i}">❌</button></div>`).join('');
+$('customCourseList').innerHTML=S.customCourses.map((c,i)=>`<div class="task"><span><b>📚 ${esc(c.n)}</b> <span class="badge">${esc(c.type)}</span><br><small>${c.date?'📅 '+esc(c.date)+' ':''}${esc(c.note||'')}</small></span><span class="acts"><button class="sm" data-a="cplan" data-i="${i}">📋 Use</button><button class="sm" data-a="cdel" data-i="${i}">❌</button></span></div>`).join('')||'<small>No custom course yet — add B.Tech / MCA / Any Exam above.</small>';
 if(S.plan)$('timeOut').textContent=S.plan;
 renderCal();drawChat();drawAll()}
-/* ACTIONS (event delegation) */
+/* ACTIONS */
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const i=+b.dataset.i,a=b.dataset.a;
 if(a==='pick'){selDay=b.dataset.d;renderCal();return}
-if(a==='tcycle')S.tasks[i].s=NEXT[S.tasks[i].s];
+if(a==='tpin'){S.tasks[i].pinned=!S.tasks[i].pinned;save();toast(S.tasks[i].pinned?'📌 Pinned to top':'Unpinned')}
+else if(a==='tcal'){S.events.push({t:'📌 '+S.tasks[i].t,d:S.tasks[i].d,time:S.tasks[i].time||'09:00',n:S.tasks[i].c+' - '+S.tasks[i].p});save();toast('Added to Calendar 📅')}
+else if(a==='tcycle')S.tasks[i].s=NEXT[S.tasks[i].s];
 else if(a==='tedit'){const v=prompt('Edit task',S.tasks[i].t);if(v&&v.trim())S.tasks[i].t=v.trim();const d=prompt('Date (YYYY-MM-DD)',S.tasks[i].d);if(d&&/^\d{4}-\d{2}-\d{2}$/.test(d))S.tasks[i].d=d}
 else if(a==='tdel')S.tasks.splice(i,1);else if(a==='edel')S.events.splice(i,1);else if(a==='rtog')S.routines[i].done=!S.routines[i].done;else if(a==='rdel')S.routines.splice(i,1);
 else if(a==='bdel')S.biz.splice(i,1);else if(a==='jdel')S.jobs.splice(i,1);else if(a==='mdel')S.mocks.splice(i,1);else if(a==='mandel')S.mandis.splice(i,1);
+else if(a==='cdel'){S.customCourses.splice(i,1);save();return}
+else if(a==='cplan'){const c=S.customCourses[i];const ex=$('exam');let f=false;[...ex.options].forEach(o=>{if(o.text===c.n){ex.value=c.n;f=true}});if(!f){const o2=document.createElement('option');o2.text=c.n;ex.appendChild(o2);ex.value=c.n} if(c.date)$('examDate').value=c.date; showPage('study'); toast('Selected: '+c.n); return}
 save()});
 /* REMINDERS */
 function checkReminders(){const now=new Date(),d=ymd(now),hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');S.notified=S.notified||{};
